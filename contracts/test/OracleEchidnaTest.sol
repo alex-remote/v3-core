@@ -33,7 +33,7 @@ contract OracleEchidnaTest {
         oracle.advanceTime(by);
     }
 
-    // write an observation, then change tick and liquidity
+    // 写入一个观测值，然后改变 tick 和流动性
     function update(
         uint32 advanceTimeBy,
         int24 tick,
@@ -50,7 +50,7 @@ contract OracleEchidnaTest {
     function checkTimeWeightedResultAssertions(uint32 secondsAgo0, uint32 secondsAgo1) private view {
         require(secondsAgo0 != secondsAgo1);
         require(initialized);
-        // secondsAgo0 should be the larger one
+        // secondsAgo0 应为两者中较大的那个
         if (secondsAgo0 < secondsAgo1) (secondsAgo0, secondsAgo1) = (secondsAgo1, secondsAgo0);
 
         uint32 timeElapsed = secondsAgo0 - secondsAgo1;
@@ -95,7 +95,7 @@ contract OracleEchidnaTest {
 
     function checkTwoAdjacentObservationsTickCumulativeModTimeElapsedAlways0(uint16 index) external view {
         uint16 cardinality = oracle.cardinality();
-        // check that the observations are initialized, and that the index is not the oldest observation
+        // 检查这两个观测值均已初始化，且该索引不是最旧的观测值
         require(index < cardinality && index != (oracle.index() + 1) % cardinality);
 
         (uint32 blockTimestamp0, int56 tickCumulative0, , bool initialized0) =
@@ -119,14 +119,14 @@ contract OracleEchidnaTest {
         (int56[] memory tickCumulatives, uint160[] memory secondsPerLiquidityCumulativeX128s) =
             oracle.observe(secondsAgos);
 
-        // compute the time weighted tick, rounded towards negative infinity
+        // 计算时间加权 tick，向负无穷取整
         int56 numerator = tickCumulatives[1] - tickCumulatives[0];
         int56 timeWeightedTick = numerator / int56(secondsAgo);
         if (numerator < 0 && numerator % int56(secondsAgo) != 0) {
             timeWeightedTick--;
         }
 
-        // the time weighted averages fit in their respective accumulated types
+        // 时间加权平均值能放入各自对应的累加类型中
         assert(timeWeightedTick <= type(int24).max && timeWeightedTick >= type(int24).min);
 
         uint256 timeWeightedHarmonicMeanLiquidity =

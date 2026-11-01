@@ -13,15 +13,15 @@ contract TickEchidnaTest {
 
         uint128 maxLiquidityPerTick = Tick.tickSpacingToMaxLiquidityPerTick(tickSpacing);
 
-        // symmetry around 0 tick
+        // 以 tick 0 为中心对称
         assert(maxTick == -minTick);
-        // positive max tick
+        // 最大 tick 为正
         assert(maxTick > 0);
-        // divisibility
+        // 可整除性
         assert((maxTick - minTick) % tickSpacing == 0);
 
         uint256 numTicks = uint256((maxTick - minTick) / tickSpacing) + 1;
-        // max liquidity at every tick is less than the cap
+        // 每个 tick 上的最大流动性都小于上限
         assert(uint256(maxLiquidityPerTick) * numTicks <= type(uint128).max);
     }
 }

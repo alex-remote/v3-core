@@ -61,7 +61,7 @@ contract E2E_mint_burn {
 
     //
     //
-    // Helpers
+    // 辅助函数
     //
     //
 
@@ -84,8 +84,8 @@ contract E2E_mint_burn {
         burnAmount = _getRandomBurnAmount(_seed, positions[positionIdx].amount);
     }
 
-    // adds all lower and upper ticks to an array such that the liquidity(Net) invariants
-    // can loop over them
+    // 把所有下界和上界 tick 添加到一个数组中，以便 liquidity(Net) 相关的不变量
+    // 可以遍历它们
     function storeUsedTicks(int24 _tL, int24 _tU) internal {
         bool lowerAlreadyUsed = false;
         bool upperAlreadyUsed = false;
@@ -102,7 +102,7 @@ contract E2E_mint_burn {
         positions.pop();
     }
 
-    // use the _amount as _seed to create a random but valid position
+    // 以 _amount 作为 _seed，生成一个随机但有效的头寸
     function forgePosition(
         uint128 _seed,
         int24 _poolTickSpacing,
@@ -112,15 +112,15 @@ contract E2E_mint_burn {
         int24 randomTick1 = int24((_seed % uint128(_poolTickCount)) * uint128(_poolTickSpacing));
 
         if (_seed % 2 == 0) {
-            // make tickLower positive
+            // 使 tickLower 为正
             tickLower = randomTick1;
 
-            // tickUpper is somewhere above tickLower
+            // tickUpper 位于 tickLower 之上的某处
             uint24 poolTickCountLeft = uint24((_poolMaxTick - randomTick1) / _poolTickSpacing);
             int24 randomTick2 = int24((_seed % uint128(poolTickCountLeft)) * uint128(_poolTickSpacing));
             tickUpper = tickLower + randomTick2;
         } else {
-            // make tickLower negative or zero
+            // 使 tickLower 为负或为零
             tickLower = randomTick1 == 0 ? 0 : -randomTick1;
 
             uint24 poolTickCountNegativeLeft = uint24((_poolMaxTick - randomTick1) / _poolTickSpacing);
@@ -129,10 +129,10 @@ contract E2E_mint_burn {
             uint24 randomIncrement = uint24((_seed % uint128(poolTickCountTotalLeft)) * uint128(_poolTickSpacing));
 
             if (randomIncrement <= uint24(tickLower)) {
-                // tickUpper will also be negative
+                // tickUpper 也将为负
                 tickUpper = tickLower + int24(randomIncrement);
             } else {
-                // tickUpper is positive
+                // tickUpper 为正
                 randomIncrement -= uint24(-tickLower);
                 tickUpper = tickLower + int24(randomIncrement);
             }
@@ -141,7 +141,7 @@ contract E2E_mint_burn {
 
     //
     //
-    // Invariants
+    // 不变量
     //
     //
 
@@ -156,7 +156,7 @@ contract E2E_mint_burn {
             liquidityNet = result;
         }
 
-        // prop #20
+        // 性质 #20
         assert(liquidityNet == 0);
     }
 
@@ -176,7 +176,7 @@ contract E2E_mint_burn {
             }
         }
 
-        // prop #21
+        // 性质 #21
         assert(uint128(liquidity) == pool.liquidity());
         assert(liquidity >= 0);
     }
@@ -192,10 +192,10 @@ contract E2E_mint_burn {
         (, , uint256 tB_feeGrowthOutside0X128, uint256 tB_feeGrowthOutside1X128) = pool.ticks(tickBelow);
         (, , uint256 tA_feeGrowthOutside0X128, uint256 tA_feeGrowthOutside1X128) = pool.ticks(tickAbove);
 
-        // prop #22
+        // 性质 #22
         assert(tB_feeGrowthOutside0X128 + tA_feeGrowthOutside0X128 <= pool.feeGrowthGlobal0X128());
 
-        // prop #23
+        // 性质 #23
         assert(tB_feeGrowthOutside1X128 + tA_feeGrowthOutside1X128 <= pool.feeGrowthGlobal1X128());
     }
 
@@ -207,23 +207,23 @@ contract E2E_mint_burn {
     ) internal {
         (, int24 currentTick, , , , , ) = pool.slot0();
 
-        // prop #1
+        // 性质 #1
         if (currentTick >= _tickLower && currentTick < _tickUpper) {
             assert(aftr.liq > bfre.liq);
         } else {
             assert(aftr.liq == bfre.liq);
         }
 
-        // prop #2
+        // 性质 #2
         assert(aftr.tL_liqGross > bfre.tL_liqGross);
 
-        // prop #3
+        // 性质 #3
         assert(aftr.tU_liqGross > bfre.tU_liqGross);
 
-        // prop #4
+        // 性质 #4
         assert(aftr.tL_liqNet > bfre.tL_liqNet);
 
-        // prop #5
+        // 性质 #5
         assert(aftr.tU_liqNet < bfre.tU_liqNet);
     }
 
@@ -238,39 +238,39 @@ contract E2E_mint_burn {
         (, int24 currentTick, , , , , ) = pool.slot0();
 
         if (_burnAmount > 0) {
-            // prop #7
+            // 性质 #7
             if (currentTick >= _tickLower && currentTick < _tickUpper) {
                 assert(aftr.liq < bfre.liq);
             } else {
                 assert(aftr.liq == bfre.liq);
             }
         } else {
-            // prop #29
+            // 性质 #29
             assert(aftr.liq == bfre.liq);
         }
 
-        // prop #8
+        // 性质 #8
         assert(aftr.tL_liqGross <= bfre.tL_liqGross);
 
-        // prop #9
+        // 性质 #9
         assert(aftr.tU_liqGross <= bfre.tU_liqGross);
 
-        // prop #10
+        // 性质 #10
         assert(aftr.tL_liqNet <= bfre.tL_liqNet);
 
-        // prop #11
+        // 性质 #11
         assert(aftr.tU_liqNet >= bfre.tU_liqNet);
 
         bytes32 positionKey = keccak256(abi.encodePacked(address(minter), _tickLower, _tickUpper));
         (uint128 positionLiquidity, , , , ) = pool.positions(positionKey);
 
-        // prop #27
+        // 性质 #27
         assert(positionLiquidity == _newPosAmount);
     }
 
     //
     //
-    // Helper to reconstruct the "random" init setup of the pool
+    // 用于重建池子“随机”初始化设置的辅助函数
     //
     //
 
@@ -314,13 +314,13 @@ contract E2E_mint_burn {
 
     //
     //
-    // Setup functions
+    // 设置函数
     //
     //
 
     function forgePoolParams(uint128 _seed) internal view returns (PoolParams memory _poolParams) {
         //
-        // decide on one of the three fees, and corresponding tickSpacing
+        // 从三档手续费中选定一档，以及对应的 tickSpacing
         //
         if (_seed % 3 == 0) {
             _poolParams.fee = uint24(500);
@@ -338,36 +338,36 @@ contract E2E_mint_burn {
         _poolParams.tickCount = uint24(_poolParams.maxTick / _poolParams.tickSpacing);
 
         //
-        // set the initial price
+        // 设置初始价格
         //
         _poolParams.startTick = int24((_seed % uint128(_poolParams.tickCount)) * uint128(_poolParams.tickSpacing));
         if (_seed % 3 == 0) {
-            // set below 0
+            // 设为低于 0
             _poolParams.startPrice = TickMath.getSqrtRatioAtTick(-_poolParams.startTick);
         } else if (_seed % 3 == 1) {
-            // set at 0
+            // 设为 0
             _poolParams.startPrice = TickMath.getSqrtRatioAtTick(0);
             _poolParams.startTick = 0;
         } else if (_seed % 3 == 2) {
-            // set above 0
+            // 设为高于 0
             _poolParams.startPrice = TickMath.getSqrtRatioAtTick(_poolParams.startTick);
         }
     }
 
     function _init(uint128 _seed) internal {
         //
-        // generate random pool params
+        // 生成随机的池子参数
         //
         poolParams = forgePoolParams(_seed);
 
         //
-        // deploy the pool
+        // 部署池子
         //
         uniswap.createPool(poolParams.fee, poolParams.startPrice);
         pool = uniswap.pool();
 
         //
-        // set the pool inside the minter and swapper contracts
+        // 在 minter 和 swapper 合约中设置池子
         //
         minter.setPool(pool);
 
@@ -376,7 +376,7 @@ contract E2E_mint_burn {
 
     //
     //
-    // Functions to fuzz
+    // 待模糊测试的函数
     //
     //
 
@@ -400,7 +400,7 @@ contract E2E_mint_burn {
         bool mintingToExistingPos = false;
         for (uint256 i = 0; i < positions.length; i++) {
             if (positions[i].key == positionKey) {
-                // minting to an existing position
+                // 向已有头寸铸造
                 positions[i].amount += _amount;
                 mintingToExistingPos = true;
                 break;
@@ -430,7 +430,7 @@ contract E2E_mint_burn {
             bfre = bfre_burn;
             aftr = aftr_burn;
         } catch {
-            // prop #28
+            // 性质 #28
             assert(false);
         }
 
@@ -460,7 +460,7 @@ contract E2E_mint_burn {
             bfre = bfre_burn;
             aftr = aftr_burn;
         } catch {
-            // prop #25
+            // 性质 #25
             assert(false);
         }
 
@@ -490,7 +490,7 @@ contract E2E_mint_burn {
             bfre = bfre_burn;
             aftr = aftr_burn;
         } catch {
-            // prop #26
+            // 性质 #26
             assert(false);
         }
 

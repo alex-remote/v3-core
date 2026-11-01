@@ -1,34 +1,34 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
-/// @title Pool state that is not stored
-/// @notice Contains view functions to provide information about the pool that is computed rather than stored on the
-/// blockchain. The functions here may have variable gas costs.
+/// @title 不存储的池子状态
+/// @notice 包含提供池子相关信息的 view 函数，这些信息是计算得出的，而非存储在
+/// 区块链上。此处的函数可能具有可变的 gas 成本。
 interface IUniswapV3PoolDerivedState {
-    /// @notice Returns the cumulative tick and liquidity as of each timestamp `secondsAgo` from the current block timestamp
-    /// @dev To get a time weighted average tick or liquidity-in-range, you must call this with two values, one representing
-    /// the beginning of the period and another for the end of the period. E.g., to get the last hour time-weighted average tick,
-    /// you must call it with secondsAgos = [3600, 0].
-    /// @dev The time weighted average tick represents the geometric time weighted average price of the pool, in
-    /// log base sqrt(1.0001) of token1 / token0. The TickMath library can be used to go from a tick value to a ratio.
-    /// @param secondsAgos From how long ago each cumulative tick and liquidity value should be returned
-    /// @return tickCumulatives Cumulative tick values as of each `secondsAgos` from the current block timestamp
-    /// @return secondsPerLiquidityCumulativeX128s Cumulative seconds per liquidity-in-range value as of each `secondsAgos` from the current block
-    /// timestamp
+    /// @notice 返回距当前区块时间戳 `secondsAgo` 之前的每个时间点的累计 tick 和流动性
+    /// @dev 要获得时间加权平均 tick 或在区间内的流动性，必须用两个值调用此函数，一个表示
+    /// 时间段的开始，另一个表示时间段的结束。例如，要获得最近一小时的时间加权平均 tick，
+    /// 必须使用 secondsAgos = [3600, 0] 调用。
+    /// @dev 时间加权平均 tick 代表池子的几何时间加权平均价格，即 token1 / token0
+    /// 以 sqrt(1.0001) 为底的对数。可以使用 TickMath 库将 tick 值转换为比率。
+    /// @param secondsAgos 每个累计 tick 和流动性值应当从多久之前返回
+    /// @return tickCumulatives 距当前区块时间戳每个 `secondsAgos` 之前的 tick 累计值
+    /// @return secondsPerLiquidityCumulativeX128s 距当前区块时间戳每个 `secondsAgos` 之前的、在区间内流动性的累计
+    /// 每单位流动性秒数值
     function observe(uint32[] calldata secondsAgos)
         external
         view
         returns (int56[] memory tickCumulatives, uint160[] memory secondsPerLiquidityCumulativeX128s);
 
-    /// @notice Returns a snapshot of the tick cumulative, seconds per liquidity and seconds inside a tick range
-    /// @dev Snapshots must only be compared to other snapshots, taken over a period for which a position existed.
-    /// I.e., snapshots cannot be compared if a position is not held for the entire period between when the first
-    /// snapshot is taken and the second snapshot is taken.
-    /// @param tickLower The lower tick of the range
-    /// @param tickUpper The upper tick of the range
-    /// @return tickCumulativeInside The snapshot of the tick accumulator for the range
-    /// @return secondsPerLiquidityInsideX128 The snapshot of seconds per liquidity for the range
-    /// @return secondsInside The snapshot of seconds per liquidity for the range
+    /// @notice 返回某个 tick 区间内的 tick 累计值、每单位流动性秒数以及区间内秒数的快照
+    /// @dev 快照只能与其他快照进行比较，且这些快照须取自某个头寸存续的时间段内。
+    /// 也就是说，如果在第一个快照与第二个快照的拍摄之间的整个时间段内未持有头寸，
+    /// 则不能比较这些快照。
+    /// @param tickLower 区间的下界 tick
+    /// @param tickUpper 区间的上界 tick
+    /// @return tickCumulativeInside 该区间的 tick 累加器快照
+    /// @return secondsPerLiquidityInsideX128 该区间的每单位流动性秒数快照
+    /// @return secondsInside 该区间的每单位流动性秒数快照
     function snapshotCumulativesInside(int24 tickLower, int24 tickUpper)
         external
         view

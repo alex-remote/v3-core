@@ -46,8 +46,8 @@ export default {
     },
   },
   etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
+    // 你的 Etherscan API 密钥
+    // 可在 https://etherscan.io/ 获取
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
   solidity: {
@@ -58,8 +58,8 @@ export default {
         runs: 800,
       },
       metadata: {
-        // do not include the metadata hash, since this is machine dependent
-        // and we want all generated code to be deterministic
+        // 不包含 metadata 哈希，因为它与机器相关，
+        // 而我们希望所有生成的代码都是确定性的
         // https://docs.soliditylang.org/en/v0.7.6/metadata.html
         bytecodeHash: 'none',
       },

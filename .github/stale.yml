@@ -1,24 +1,24 @@
-# Configuration for probot-stale - https://github.com/probot/stale
+# probot-stale 的配置 - https://github.com/probot/stale
 
 issues:
-  # Number of days of inactivity before an Issue or Pull Request becomes stale
+  # Issue 或 Pull Request 无活动多少天后被标记为过期（stale）
   daysUntilStale: 7
 
-  # Number of days of inactivity before an Issue or Pull Request with the stale label is closed.
-  # Set to false to disable. If disabled, issues still need to be closed manually, but will remain marked as stale.
+  # 带有 stale 标签的 Issue 或 Pull Request 无活动多少天后被关闭。
+  # 设为 false 可禁用。若禁用，issue 仍需手动关闭，但会保持过期（stale）标记。
   daysUntilClose: 7
 
-  # Only issues or pull requests with all of these labels are check if stale. Defaults to `[]` (disabled)
+  # 只有同时带有以下全部标签的 issue 或 pull request 才会被检查是否过期。默认为 `[]`（禁用）
   onlyLabels:
     - question
     - autoclose
 
-  # Issues or Pull Requests with these labels will never be considered stale. Set to `[]` to disable
+  # 带有以下标签的 Issue 或 Pull Request 永远不会被视为过期。设为 `[]` 可禁用
   exemptLabels:
     - p0
     - bug
 
-  # Comment to post when marking as stale. Set to `false` to disable
+  # 标记为过期时发布的评论。设为 `false` 可禁用
   markComment: >
     This issue has been automatically marked as stale because it has not had
     recent activity. It will be closed if no further activity occurs. Thank you

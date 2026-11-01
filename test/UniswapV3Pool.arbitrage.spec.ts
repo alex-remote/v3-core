@@ -220,7 +220,7 @@ describe('UniswapV3Pool arbitrage tests', () => {
                 let arbBalance0 = BigNumber.from(0)
                 let arbBalance1 = BigNumber.from(0)
 
-                // first frontrun to the first tick before the execution price
+                // 先抢跑（frontrun）到执行价格之前的第一个 tick
                 const {
                   amount0Delta: frontrunDelta0,
                   amount1Delta: frontrunDelta1,
@@ -237,11 +237,11 @@ describe('UniswapV3Pool arbitrage tests', () => {
                 const tickLower = zeroForOne ? tickAfterFirstTickAboveMarginPrice : firstTickAboveMarginalPrice
                 const tickUpper = zeroForOne ? firstTickAboveMarginalPrice : tickAfterFirstTickAboveMarginPrice
 
-                // deposit max liquidity at the tick
+                // 在该 tick 处存入最大流动性
                 const mintReceipt = await (
                   await mint(wallet.address, tickLower, tickUpper, getMaxLiquidityPerTick(tickSpacing))
                 ).wait()
-                // sub the mint costs
+                // 减去铸造成本
                 const { amount0: amount0Mint, amount1: amount1Mint } = pool.interface.decodeEventLog(
                   pool.interface.events['Mint(address,address,int24,int24,uint128,uint256,uint256)'],
                   mintReceipt.events?.[2].data!
@@ -249,13 +249,13 @@ describe('UniswapV3Pool arbitrage tests', () => {
                 arbBalance0 = arbBalance0.sub(amount0Mint)
                 arbBalance1 = arbBalance1.sub(amount1Mint)
 
-                // execute the user's swap
+                // 执行用户的兑换
                 const { executionPrice: executionPriceAfterFrontrun } = await simulateSwap(zeroForOne, inputAmount)
                 zeroForOne
                   ? await swapExact0For1(inputAmount, wallet.address)
                   : await swapExact1For0(inputAmount, wallet.address)
 
-                // burn the arb's liquidity
+                // 销毁套利者的流动性
                 const { amount0: amount0Burn, amount1: amount1Burn } = await pool.callStatic.burn(
                   tickLower,
                   tickUpper,
@@ -265,7 +265,7 @@ describe('UniswapV3Pool arbitrage tests', () => {
                 arbBalance0 = arbBalance0.add(amount0Burn)
                 arbBalance1 = arbBalance1.add(amount1Burn)
 
-                // add the fees as well
+                // 同时加上手续费
                 const {
                   amount0: amount0CollectAndBurn,
                   amount1: amount1CollectAndBurn,
@@ -279,7 +279,7 @@ describe('UniswapV3Pool arbitrage tests', () => {
 
                 const profitToken1AfterSandwich = valueToken1(arbBalance0, arbBalance1)
 
-                // backrun the swap to true price, i.e. swap to the marginal price = true price
+                // 尾随（backrun）该兑换至真实价格，即兑换到边际价格 = 真实价格
                 const priceToSwapTo = zeroForOne
                   ? applySqrtRatioBipsHundredthsDelta(assumedTruePriceAfterSwap, -feeAmount)
                   : applySqrtRatioBipsHundredthsDelta(assumedTruePriceAfterSwap, feeAmount)
@@ -335,7 +335,7 @@ describe('UniswapV3Pool arbitrage tests', () => {
                   ? await swapExact0For1(inputAmount, wallet.address)
                   : await swapExact1For0(inputAmount, wallet.address)
 
-                // swap to the marginal price = true price
+                // 兑换到边际价格 = 真实价格
                 const priceToSwapTo = zeroForOne
                   ? applySqrtRatioBipsHundredthsDelta(assumedTruePriceAfterSwap, -feeAmount)
                   : applySqrtRatioBipsHundredthsDelta(assumedTruePriceAfterSwap, feeAmount)

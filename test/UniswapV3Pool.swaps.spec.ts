@@ -98,7 +98,7 @@ function swapCaseToDescription(testCase: SwapTestCase): string {
 
 type PoolFunctions = ReturnType<typeof createPoolFunctions>
 
-// can't use address zero because the ERC20 token does not allow it
+// 不能使用零地址，因为 ERC20 代币不允许
 const SWAP_RECIPIENT_ADDRESS = constants.AddressZero.slice(0, -1) + '1'
 const POSITION_PROCEEDS_OUTPUT_ADDRESS = constants.AddressZero.slice(0, -1) + '2'
 
@@ -133,7 +133,7 @@ async function executeSwap(
 }
 
 const DEFAULT_POOL_SWAP_TESTS: SwapTestCase[] = [
-  // swap large amounts in/out
+  // 兑换大额输入/输出
   {
     zeroForOne: true,
     exactOut: false,
@@ -154,7 +154,7 @@ const DEFAULT_POOL_SWAP_TESTS: SwapTestCase[] = [
     exactOut: true,
     amount0: expandTo18Decimals(1),
   },
-  // swap large amounts in/out with a price limit
+  // 带价格限制地兑换大额输入/输出
   {
     zeroForOne: true,
     exactOut: false,
@@ -179,7 +179,7 @@ const DEFAULT_POOL_SWAP_TESTS: SwapTestCase[] = [
     amount0: expandTo18Decimals(1),
     sqrtPriceLimit: encodePriceSqrt(200, 100),
   },
-  // swap small amounts in/out
+  // 兑换小额输入/输出
   {
     zeroForOne: true,
     exactOut: false,
@@ -200,7 +200,7 @@ const DEFAULT_POOL_SWAP_TESTS: SwapTestCase[] = [
     exactOut: true,
     amount0: 1000,
   },
-  // swap arbitrary input to price
+  // 以任意输入兑换至指定价格
   {
     sqrtPriceLimit: encodePriceSqrt(5, 2),
     zeroForOne: false,
@@ -468,7 +468,7 @@ describe('UniswapV3Pool swap tests', () => {
         const pool = await createPool(poolCase.feeAmount, poolCase.tickSpacing)
         const poolFunctions = createPoolFunctions({ swapTarget, token0, token1, pool })
         await pool.initialize(poolCase.startingPrice)
-        // mint all positions
+        // 铸造所有头寸
         for (const position of poolCase.positions) {
           await poolFunctions.mint(wallet.address, position.tickLower, position.tickUpper, position.liquidity)
         }
@@ -538,7 +538,7 @@ describe('UniswapV3Pool swap tests', () => {
           const poolBalance0Delta = poolBalance0After.sub(poolBalance0)
           const poolBalance1Delta = poolBalance1After.sub(poolBalance1)
 
-          // check all the events were emitted corresponding to balance changes
+          // 检查与余额变化相对应的所有事件均已发出
           if (poolBalance0Delta.eq(0)) await expect(tx).to.not.emit(token0, 'Transfer')
           else if (poolBalance0Delta.lt(0))
             await expect(tx)
@@ -553,7 +553,7 @@ describe('UniswapV3Pool swap tests', () => {
               .withArgs(pool.address, SWAP_RECIPIENT_ADDRESS, poolBalance1Delta.mul(-1))
           else await expect(tx).to.emit(token1, 'Transfer').withArgs(wallet.address, pool.address, poolBalance1Delta)
 
-          // check that the swap event was emitted too
+          // 检查兑换事件也已发出
           await expect(tx)
             .to.emit(pool, 'Swap')
             .withArgs(

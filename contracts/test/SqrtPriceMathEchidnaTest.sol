@@ -52,7 +52,7 @@ contract SqrtPriceMathEchidnaTest {
             assert(sqrtQ <= sqrtP);
             assert(amountOut <= SqrtPriceMath.getAmount1Delta(sqrtQ, sqrtP, liquidity, false));
         } else {
-            assert(sqrtQ > 0); // this has to be true, otherwise we need another require
+            assert(sqrtQ > 0); // 这一条件必须成立，否则我们需要再加一个 require
             assert(sqrtQ >= sqrtP);
             assert(amountOut <= SqrtPriceMath.getAmount0Delta(sqrtP, sqrtQ, liquidity, false));
         }
@@ -114,11 +114,11 @@ contract SqrtPriceMathEchidnaTest {
         assert(amount0Up == SqrtPriceMath.getAmount0Delta(sqrtP, sqrtQ, liquidity, true));
 
         assert(amount0Down <= amount0Up);
-        // diff is 0 or 1
+        // 差值为 0 或 1
         assert(amount0Up - amount0Down < 2);
     }
 
-    // ensure that chained division is always equal to the full-precision case for
+    // 确保链式除法的结果始终等于下式按全精度计算的结果：
     // liquidity * (sqrt(P) - sqrt(Q)) / (sqrt(P) * sqrt(Q))
     function getAmount0DeltaEquivalency(
         uint160 sqrtP,
@@ -157,7 +157,7 @@ contract SqrtPriceMathEchidnaTest {
         assert(amount1Up == SqrtPriceMath.getAmount1Delta(sqrtQ, sqrtP, liquidity, true));
 
         assert(amount1Down <= amount1Up);
-        // diff is 0 or 1
+        // 差值为 0 或 1
         assert(amount1Up - amount1Down < 2);
     }
 

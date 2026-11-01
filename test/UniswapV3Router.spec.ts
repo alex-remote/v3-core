@@ -79,7 +79,7 @@ describe('UniswapV3Pool', () => {
       return [pool, poolFunctions]
     }
 
-    // default to the 30 bips pool
+    // 默认使用 30 个基点（bips）的池子
     ;[pool0, pool0Functions] = await createPoolWrapped(feeAmount, tickSpacing, token0, token1)
     ;[pool1, pool1Functions] = await createPoolWrapped(feeAmount, tickSpacing, token1, token2)
   })

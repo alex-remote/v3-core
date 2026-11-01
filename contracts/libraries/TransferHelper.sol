@@ -4,13 +4,13 @@ pragma solidity >=0.6.0;
 import '../interfaces/IERC20Minimal.sol';
 
 /// @title TransferHelper
-/// @notice Contains helper methods for interacting with ERC20 tokens that do not consistently return true/false
+/// @notice 包含用于与不总是一致返回 true/false 的 ERC20 代币进行交互的辅助方法
 library TransferHelper {
-    /// @notice Transfers tokens from msg.sender to a recipient
-    /// @dev Calls transfer on token contract, errors with TF if transfer fails
-    /// @param token The contract address of the token which will be transferred
-    /// @param to The recipient of the transfer
-    /// @param value The value of the transfer
+    /// @notice 将代币从 msg.sender 转给接收者
+    /// @dev 调用代币合约的 transfer，若转账失败则以 TF 报错
+    /// @param token 待转账代币的合约地址
+    /// @param to 转账的接收者
+    /// @param value 转账的金额
     function safeTransfer(
         address token,
         address to,

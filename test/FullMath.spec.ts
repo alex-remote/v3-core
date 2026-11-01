@@ -129,9 +129,9 @@ describe('FullMath', () => {
     return BigNumber.from(new Decimal(MaxUint256.toString()).mul(Math.random().toString()).round().toString())
   }
 
-  // tiny fuzzer. unskip to run
+  // 小型模糊测试。取消 skip 即可运行
   it.skip('check a bunch of random inputs against JS implementation', async () => {
-    // generates random inputs
+    // 生成随机输入
     const tests = Array(1_000)
       .fill(null)
       .map(() => {

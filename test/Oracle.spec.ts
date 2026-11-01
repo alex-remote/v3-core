@@ -107,8 +107,8 @@ describe('Oracle', () => {
 
     it('grow after wrap', async () => {
       await oracle.grow(2)
-      await oracle.update({ advanceTimeBy: 2, liquidity: 1, tick: 1 }) // index is now 1
-      await oracle.update({ advanceTimeBy: 2, liquidity: 1, tick: 1 }) // index is now 0 again
+      await oracle.update({ advanceTimeBy: 2, liquidity: 1, tick: 1 }) // 此时 index 为 1
+      await oracle.update({ advanceTimeBy: 2, liquidity: 1, tick: 1 }) // 此时 index 又回到 0
       expect(await oracle.index()).to.eq(0)
       await oracle.grow(3)
       expect(await oracle.index()).to.eq(0)
@@ -336,7 +336,7 @@ describe('Oracle', () => {
       })
 
       it('interpolates correctly across uint32 seconds boundaries', async () => {
-        // setup
+        // 准备
         await oracle.initialize({ liquidity: 0, tick: 0, time: 0 })
         await oracle.grow(2)
         await oracle.update({ advanceTimeBy: 2 ** 32 - 6, tick: 0, liquidity: 0 })
@@ -346,7 +346,7 @@ describe('Oracle', () => {
         ;({ secondsPerLiquidityCumulativeX128 } = await observeSingle(0))
         expect(secondsPerLiquidityCumulativeX128).to.eq(BigNumber.from(7).shl(128))
 
-        // interpolation checks
+        // 插值检查
         ;({ secondsPerLiquidityCumulativeX128 } = await observeSingle(3))
         expect(secondsPerLiquidityCumulativeX128).to.eq(BigNumber.from(4).shl(128))
         ;({ secondsPerLiquidityCumulativeX128 } = await observeSingle(8))

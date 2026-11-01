@@ -85,7 +85,7 @@ describe('TickBitmap', () => {
 
   describe('#nextInitializedTickWithinOneWord', () => {
     beforeEach('set up some ticks', async () => {
-      // word boundaries are at multiples of 256
+      // 字（word）边界位于 256 的整数倍处
       await initTicks([-200, -55, -4, 70, 78, 84, 139, 240, 535])
     })
 

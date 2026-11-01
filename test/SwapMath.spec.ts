@@ -155,7 +155,7 @@ describe('SwapMath', () => {
       )
       expect(amountIn).to.eq('1')
       expect(feeAmount).to.eq('1')
-      expect(amountOut).to.eq('1') // would be 2 if not capped
+      expect(amountOut).to.eq('1') // 若不设上限则为 2
       expect(sqrtQ).to.eq('417332158212080721273783715441581')
     })
 
@@ -192,7 +192,7 @@ describe('SwapMath', () => {
       const sqrtP = BigNumber.from('20282409603651670423947251286016')
       const sqrtPTarget = sqrtP.mul(11).div(10)
       const liquidity = 1024
-      // virtual reserves of one are only 4
+      // token1 的虚拟储备仅为 4
       // https://www.wolframalpha.com/input/?i=1024+%2F+%2820282409603651670423947251286016+%2F+2**96%29
       const amountRemaining = -4
       const feePips = 3000
@@ -213,7 +213,7 @@ describe('SwapMath', () => {
       const sqrtP = BigNumber.from('20282409603651670423947251286016')
       const sqrtPTarget = sqrtP.mul(9).div(10)
       const liquidity = 1024
-      // virtual reserves of zero are only 262144
+      // token0 的虚拟储备仅为 262144
       // https://www.wolframalpha.com/input/?i=1024+*+%2820282409603651670423947251286016+%2F+2**96%29
       const amountRemaining = -263000
       const feePips = 3000

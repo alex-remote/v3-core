@@ -4,4 +4,4 @@ codeSize: 0x60000
 corpusDir: echidna_other_corpus
 seqLen: 1000
 testLimit: 100000
-timeout: 3600 # 1 hour
+timeout: 3600 # 1 小时

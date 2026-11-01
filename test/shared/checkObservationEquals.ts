@@ -1,8 +1,8 @@
 import { BigNumber, BigNumberish } from 'ethers'
 import { expect } from './expect'
 
-// helper function because we cannot do a simple deep equals with the
-// observation result object returned from ethers because it extends array
+// 辅助函数：因为 ethers 返回的观测值结果对象继承自数组，
+// 所以无法直接对其做简单的深度相等比较
 export default function checkObservationEquals(
   {
     tickCumulative,

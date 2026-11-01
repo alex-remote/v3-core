@@ -40,7 +40,7 @@ contract OracleTest {
         uint128 liquidity;
     }
 
-    // write an observation, then change tick and liquidity
+    // 写入一个观测值，然后更改 tick 和流动性
     function update(UpdateParams calldata params) external {
         advanceTime(params.advanceTimeBy);
         (index, cardinality) = observations.write(index, time, tick, liquidity, cardinality, cardinalityNext);
@@ -49,7 +49,7 @@ contract OracleTest {
     }
 
     function batchUpdate(UpdateParams[] calldata params) external {
-        // sload everything
+        // 一次性 sload 所有变量
         int24 _tick = tick;
         uint128 _liquidity = liquidity;
         uint16 _index = index;
@@ -71,7 +71,7 @@ contract OracleTest {
             _liquidity = params[i].liquidity;
         }
 
-        // sstore everything
+        // 一次性 sstore 所有变量
         tick = _tick;
         liquidity = _liquidity;
         index = _index;

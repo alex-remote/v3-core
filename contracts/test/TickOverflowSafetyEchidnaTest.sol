@@ -13,24 +13,24 @@ contract TickOverflowSafetyEchidnaTest {
     mapping(int24 => Tick.Info) private ticks;
     int24 private tick = 0;
 
-    // used to track how much total liquidity has been added. should never be negative
+    // 用于跟踪总共添加了多少流动性。永远不应为负
     int256 totalLiquidity = 0;
-    // half the cap of fee growth has happened, this can overflow
+    // 已发生上限一半的手续费增长，此值可以溢出
     uint256 private feeGrowthGlobal0X128 = type(uint256).max / 2;
     uint256 private feeGrowthGlobal1X128 = type(uint256).max / 2;
-    // how much total growth has happened, this cannot overflow
+    // 总共发生了多少增长，此值不会溢出
     uint256 private totalGrowth0 = 0;
     uint256 private totalGrowth1 = 0;
 
     function increaseFeeGrowthGlobal0X128(uint256 amount) external {
-        require(totalGrowth0 + amount > totalGrowth0); // overflow check
-        feeGrowthGlobal0X128 += amount; // overflow desired
+        require(totalGrowth0 + amount > totalGrowth0); // 溢出检查
+        feeGrowthGlobal0X128 += amount; // 有意允许溢出
         totalGrowth0 += amount;
     }
 
     function increaseFeeGrowthGlobal1X128(uint256 amount) external {
-        require(totalGrowth1 + amount > totalGrowth1); // overflow check
-        feeGrowthGlobal1X128 += amount; // overflow desired
+        require(totalGrowth1 + amount > totalGrowth1); // 溢出检查
+        feeGrowthGlobal1X128 += amount; // 有意允许溢出
         totalGrowth1 += amount;
     }
 
@@ -84,7 +84,7 @@ contract TickOverflowSafetyEchidnaTest {
         }
 
         totalLiquidity += liquidityDelta;
-        // requires should have prevented this
+        // 前面的 require 本应阻止这种情况
         assert(totalLiquidity >= 0);
 
         if (totalLiquidity == 0) {

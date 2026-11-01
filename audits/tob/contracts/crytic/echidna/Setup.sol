@@ -9,7 +9,7 @@ contract SetupToken {
     TestERC20 public token;
 
     constructor() public {
-        // this contract will receive the total supply of 100 tokens
+        // 本合约将收到 100 个代币的全部供应量
         token = new TestERC20(1e12 ether);
     }
 
@@ -26,22 +26,22 @@ contract SetupTokens {
     TestERC20 public token1;
 
     constructor() public {
-        // create the token wrappers
+        // 创建代币包装合约
         tokenSetup0 = new SetupToken();
         tokenSetup1 = new SetupToken();
 
-        // switch them around so that token0's address is lower than token1's
-        // since this is what the uniswap factory will do when you create the pool
+        // 交换两者顺序，使 token0 的地址小于 token1 的地址，
+        // 因为创建池子时 Uniswap 工厂也会这样做
         if (address(tokenSetup0.token()) > address(tokenSetup1.token())) {
             (tokenSetup0, tokenSetup1) = (tokenSetup1, tokenSetup0);
         }
 
-        // save the erc20 tokens
+        // 保存这两个 ERC20 代币
         token0 = tokenSetup0.token();
         token1 = tokenSetup1.token();
     }
 
-    // mint either token0 or token1 to a chosen account
+    // 向选定的账户铸造 token0 或 token1
     function mintTo(
         uint256 _tokenIdx,
         address _recipient,
@@ -58,10 +58,10 @@ contract SetupUniswap {
     TestERC20 token0;
     TestERC20 token1;
 
-    // will create the following enabled fees and corresponding tickSpacing
-    // fee 500   + tickSpacing 10
-    // fee 3000  + tickSpacing 60
-    // fee 10000 + tickSpacing 200
+    // 将创建以下已启用的手续费档位及对应的 tickSpacing
+    // 手续费 500   + tickSpacing 10
+    // 手续费 3000  + tickSpacing 60
+    // 手续费 10000 + tickSpacing 200
     UniswapV3Factory factory;
 
     constructor(TestERC20 _token0, TestERC20 _token1) public {

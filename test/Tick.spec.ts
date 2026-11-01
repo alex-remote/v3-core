@@ -19,27 +19,27 @@ describe('Tick', () => {
   describe('#tickSpacingToMaxLiquidityPerTick', () => {
     it('returns the correct value for low fee', async () => {
       const maxLiquidityPerTick = await tickTest.tickSpacingToMaxLiquidityPerTick(TICK_SPACINGS[FeeAmount.LOW])
-      expect(maxLiquidityPerTick).to.eq('1917569901783203986719870431555990') // 110.8 bits
+      expect(maxLiquidityPerTick).to.eq('1917569901783203986719870431555990') // 110.8 位
       expect(maxLiquidityPerTick).to.eq(getMaxLiquidityPerTick(TICK_SPACINGS[FeeAmount.LOW]))
     })
     it('returns the correct value for medium fee', async () => {
       const maxLiquidityPerTick = await tickTest.tickSpacingToMaxLiquidityPerTick(TICK_SPACINGS[FeeAmount.MEDIUM])
-      expect(maxLiquidityPerTick).to.eq('11505743598341114571880798222544994') // 113.1 bits
+      expect(maxLiquidityPerTick).to.eq('11505743598341114571880798222544994') // 113.1 位
       expect(maxLiquidityPerTick).to.eq(getMaxLiquidityPerTick(TICK_SPACINGS[FeeAmount.MEDIUM]))
     })
     it('returns the correct value for high fee', async () => {
       const maxLiquidityPerTick = await tickTest.tickSpacingToMaxLiquidityPerTick(TICK_SPACINGS[FeeAmount.HIGH])
-      expect(maxLiquidityPerTick).to.eq('38350317471085141830651933667504588') // 114.7 bits
+      expect(maxLiquidityPerTick).to.eq('38350317471085141830651933667504588') // 114.7 位
       expect(maxLiquidityPerTick).to.eq(getMaxLiquidityPerTick(TICK_SPACINGS[FeeAmount.HIGH]))
     })
     it('returns the correct value for entire range', async () => {
       const maxLiquidityPerTick = await tickTest.tickSpacingToMaxLiquidityPerTick(887272)
-      expect(maxLiquidityPerTick).to.eq(MaxUint128.div(3)) // 126 bits
+      expect(maxLiquidityPerTick).to.eq(MaxUint128.div(3)) // 126 位
       expect(maxLiquidityPerTick).to.eq(getMaxLiquidityPerTick(887272))
     })
     it('returns the correct value for 2302', async () => {
       const maxLiquidityPerTick = await tickTest.tickSpacingToMaxLiquidityPerTick(2302)
-      expect(maxLiquidityPerTick).to.eq('441351967472034323558203122479595605') // 118 bits
+      expect(maxLiquidityPerTick).to.eq('441351967472034323558203122479595605') // 118 位
       expect(maxLiquidityPerTick).to.eq(getMaxLiquidityPerTick(2302))
     })
   })
@@ -238,7 +238,7 @@ describe('Tick', () => {
     })
   })
 
-  // this is skipped because the presence of the method causes slither to fail
+  // 此处跳过，因为该方法的存在会导致 slither 运行失败
   describe('#clear', async () => {
     it('deletes all the data in the tick', async () => {
       await tickTest.setTick(2, {

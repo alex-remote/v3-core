@@ -8,8 +8,8 @@ import './NoDelegateCall.sol';
 
 import './UniswapV3Pool.sol';
 
-/// @title Canonical Uniswap V3 factory
-/// @notice Deploys Uniswap V3 pools and manages ownership and control over pool protocol fees
+/// @title 规范的 Uniswap V3 工厂
+/// @notice 部署 Uniswap V3 池子，并管理所有权以及对池子协议手续费的控制
 contract UniswapV3Factory is IUniswapV3Factory, UniswapV3PoolDeployer, NoDelegateCall {
     /// @inheritdoc IUniswapV3Factory
     address public override owner;
@@ -45,7 +45,7 @@ contract UniswapV3Factory is IUniswapV3Factory, UniswapV3PoolDeployer, NoDelegat
         require(getPool[token0][token1][fee] == address(0));
         pool = deploy(address(this), token0, token1, fee, tickSpacing);
         getPool[token0][token1][fee] = pool;
-        // populate mapping in the reverse direction, deliberate choice to avoid the cost of comparing addresses
+        // 同时填充反方向的映射，这是有意为之，以避免比较地址的开销
         getPool[token1][token0][fee] = pool;
         emit PoolCreated(token0, token1, fee, tickSpacing, pool);
     }
@@ -61,9 +61,9 @@ contract UniswapV3Factory is IUniswapV3Factory, UniswapV3PoolDeployer, NoDelegat
     function enableFeeAmount(uint24 fee, int24 tickSpacing) public override {
         require(msg.sender == owner);
         require(fee < 1000000);
-        // tick spacing is capped at 16384 to prevent the situation where tickSpacing is so large that
-        // TickBitmap#nextInitializedTickWithinOneWord overflows int24 container from a valid tick
-        // 16384 ticks represents a >5x price change with ticks of 1 bips
+        // tick 间距上限为 16384，以防止出现 tickSpacing 过大、导致
+        // TickBitmap#nextInitializedTickWithinOneWord 从一个有效 tick 出发时溢出 int24 容器的情况
+        // 在每个 tick 为 1 bip 的情况下，16384 个 tick 代表超过 5 倍的价格变化
         require(tickSpacing > 0 && tickSpacing < 16384);
         require(feeAmountTickSpacing[fee] == 0);
 

@@ -8,10 +8,10 @@ import './pool/IUniswapV3PoolActions.sol';
 import './pool/IUniswapV3PoolOwnerActions.sol';
 import './pool/IUniswapV3PoolEvents.sol';
 
-/// @title The interface for a Uniswap V3 Pool
-/// @notice A Uniswap pool facilitates swapping and automated market making between any two assets that strictly conform
-/// to the ERC20 specification
-/// @dev The pool interface is broken up into many smaller pieces
+/// @title Uniswap V3 池子的接口
+/// @notice Uniswap 池子支持在任意两种严格遵循
+/// ERC20 规范的资产之间进行兑换和自动做市
+/// @dev 池子接口被拆分为许多较小的部分
 interface IUniswapV3Pool is
     IUniswapV3PoolImmutables,
     IUniswapV3PoolState,

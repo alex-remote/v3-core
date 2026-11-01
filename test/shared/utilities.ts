@@ -48,9 +48,9 @@ export function getCreate2Address(
   const create2Inputs = [
     '0xff',
     factoryAddress,
-    // salt
+    // 盐值（salt）
     utils.keccak256(constructorArgumentsEncoded),
-    // init code. bytecode + constructor arguments
+    // 初始化代码：bytecode + 构造函数参数
     utils.keccak256(bytecode),
   ]
   const sanitizedInputs = `0x${create2Inputs.map((i) => i.slice(2)).join('')}`
@@ -59,7 +59,7 @@ export function getCreate2Address(
 
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 })
 
-// returns the sqrt price as a 64x96
+// 以 64x96 格式返回平方根价格
 export function encodePriceSqrt(reserve1: BigNumberish, reserve0: BigNumberish): BigNumber {
   return BigNumber.from(
     new bn(reserve1.toString())

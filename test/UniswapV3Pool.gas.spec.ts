@@ -122,13 +122,13 @@ describe('UniswapV3Pool gas tests', () => {
           )
           expect((await pool.slot0()).tick).to.eq(startingTick)
           await snapshotGasCost(swapExact0For1(expandTo18Decimals(1), wallet.address))
-          expect((await pool.slot0()).tick).to.be.lt(startingTick - 4 * tickSpacing) // we crossed the last tick
+          expect((await pool.slot0()).tick).to.be.lt(startingTick - 4 * tickSpacing) // 我们穿越了最后一个 tick
         })
 
         it('first swap in block, large swap crossing a single initialized tick', async () => {
           await mint(wallet.address, minTick, startingTick - 2 * tickSpacing, expandTo18Decimals(1))
           await snapshotGasCost(swapExact0For1(expandTo18Decimals(1), wallet.address))
-          expect((await pool.slot0()).tick).to.be.lt(startingTick - 2 * tickSpacing) // we crossed the last tick
+          expect((await pool.slot0()).tick).to.be.lt(startingTick - 2 * tickSpacing) // 我们穿越了最后一个 tick
         })
 
         it('second swap in block, large swap crossing several initialized ticks', async () => {
@@ -147,9 +147,9 @@ describe('UniswapV3Pool gas tests', () => {
         it('second swap in block, large swap crossing a single initialized tick', async () => {
           await mint(wallet.address, minTick, startingTick - 2 * tickSpacing, expandTo18Decimals(1))
           await swapExact0For1(expandTo18Decimals(1).div(10000), wallet.address)
-          expect((await pool.slot0()).tick).to.be.gt(startingTick - 2 * tickSpacing) // we didn't cross the initialized tick
+          expect((await pool.slot0()).tick).to.be.gt(startingTick - 2 * tickSpacing) // 我们没有穿越已初始化的 tick
           await snapshotGasCost(swapExact0For1(expandTo18Decimals(1), wallet.address))
-          expect((await pool.slot0()).tick).to.be.lt(startingTick - 2 * tickSpacing) // we crossed the last tick
+          expect((await pool.slot0()).tick).to.be.lt(startingTick - 2 * tickSpacing) // 我们穿越了最后一个 tick
         })
 
         it('large swap crossing several initialized ticks after some time passes', async () => {
@@ -283,7 +283,7 @@ describe('UniswapV3Pool gas tests', () => {
         it('close to worst case', async () => {
           await mint(wallet.address, tickLower, tickUpper, expandTo18Decimals(1))
           await swapExact0For1(expandTo18Decimals(1).div(100), wallet.address)
-          await pool.burn(tickLower, tickUpper, 0) // poke to accumulate fees
+          await pool.burn(tickLower, tickUpper, 0) // 触发（poke）以累计手续费
           await snapshotGasCost(pool.collect(wallet.address, tickLower, tickUpper, MaxUint128, MaxUint128))
         })
       })

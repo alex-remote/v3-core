@@ -34,13 +34,13 @@ contract SwapMathEchidnaTest {
             assert(sqrtQ == sqrtPriceTargetRaw);
         }
 
-        // didn't reach price target, entire amount must be consumed
+        // 未到达目标价格时，全部数量必须被消耗完
         if (sqrtQ != sqrtPriceTargetRaw) {
             if (amountRemaining < 0) assert(amountOut == uint256(-amountRemaining));
             else assert(amountIn + feeAmount == uint256(amountRemaining));
         }
 
-        // next price is between price and price target
+        // 下一个价格位于当前价格与目标价格之间
         if (sqrtPriceTargetRaw <= sqrtPriceRaw) {
             assert(sqrtQ <= sqrtPriceRaw);
             assert(sqrtQ >= sqrtPriceTargetRaw);

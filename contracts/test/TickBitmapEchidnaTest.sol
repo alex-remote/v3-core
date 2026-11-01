@@ -8,7 +8,7 @@ contract TickBitmapEchidnaTest {
 
     mapping(int16 => uint256) private bitmap;
 
-    // returns whether the given tick is initialized
+    // 返回给定的 tick 是否已初始化
     function isInitialized(int24 tick) private view returns (bool) {
         (int24 next, bool initialized) = bitmap.nextInitializedTickWithinOneWord(tick, 1, true);
         return next == tick ? initialized : false;
@@ -27,7 +27,7 @@ contract TickBitmapEchidnaTest {
             require(tick >= -8388352);
             assert(next <= tick);
             assert(tick - next < 256);
-            // all the ticks between the input tick and the next tick should be uninitialized
+            // 输入 tick 与下一个 tick 之间的所有 tick 都应为未初始化
             for (int24 i = tick; i > next; i--) {
                 assert(!isInitialized(i));
             }
@@ -37,7 +37,7 @@ contract TickBitmapEchidnaTest {
             require(tick < 8388351);
             assert(next > tick);
             assert(next - tick <= 256);
-            // all the ticks between the input tick and the next tick should be uninitialized
+            // 输入 tick 与下一个 tick 之间的所有 tick 都应为未初始化
             for (int24 i = tick + 1; i < next; i++) {
                 assert(!isInitialized(i));
             }

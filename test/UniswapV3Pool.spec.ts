@@ -100,7 +100,7 @@ describe('UniswapV3Pool', () => {
       return pool
     }
 
-    // default to the 30 bips pool
+    // 默认使用 30 bips 的池子
     pool = await createPool(FeeAmount.MEDIUM, TICK_SPACINGS[FeeAmount.MEDIUM])
   })
 
@@ -198,19 +198,19 @@ describe('UniswapV3Pool', () => {
 
       describe('failure cases', () => {
         it('fails if tickLower greater than tickUpper', async () => {
-          // should be TLU but...hardhat
+          // 本应是 TLU，但……hardhat
           await expect(mint(wallet.address, 1, 0, 1)).to.be.reverted
         })
         it('fails if tickLower less than min tick', async () => {
-          // should be TLM but...hardhat
+          // 本应是 TLM，但……hardhat
           await expect(mint(wallet.address, -887273, 0, 1)).to.be.reverted
         })
         it('fails if tickUpper greater than max tick', async () => {
-          // should be TUM but...hardhat
+          // 本应是 TUM，但……hardhat
           await expect(mint(wallet.address, 0, 887273, 1)).to.be.reverted
         })
         it('fails if amount exceeds the max', async () => {
-          // these should fail with 'LO' but hardhat is bugged
+          // 这些本应以 'LO' 失败，但 hardhat 有 bug
           const maxLiquidityGross = await pool.maxLiquidityPerTick()
           await expect(mint(wallet.address, minTick + tickSpacing, maxTick - tickSpacing, maxLiquidityGross.add(1))).to
             .be.reverted
@@ -218,7 +218,7 @@ describe('UniswapV3Pool', () => {
             .reverted
         })
         it('fails if total amount at tick exceeds the max', async () => {
-          // these should fail with 'LO' but hardhat is bugged
+          // 这些本应以 'LO' 失败，但 hardhat 有 bug
           await mint(wallet.address, minTick + tickSpacing, maxTick - tickSpacing, 1000)
 
           const maxLiquidityGross = await pool.maxLiquidityPerTick()
@@ -511,7 +511,7 @@ describe('UniswapV3Pool', () => {
         await swapExact0For1(expandTo18Decimals(1).div(10), wallet.address)
         await swapExact1For0(expandTo18Decimals(1).div(100), wallet.address)
 
-        // missing revert reason due to hardhat
+        // 由于 hardhat 的问题，缺少回滚（revert）原因
         await expect(pool.burn(minTick + tickSpacing, maxTick - tickSpacing, 0)).to.be.reverted
 
         await mint(wallet.address, minTick + tickSpacing, maxTick - tickSpacing, 1)
@@ -562,7 +562,7 @@ describe('UniswapV3Pool', () => {
     }
 
     it('does not clear the position fee growth snapshot if no more liquidity', async () => {
-      // some activity that would make the ticks non-zero
+      // 进行一些会使 tick 数据变为非零的操作
       await pool.advanceTime(10)
       await mint(other.address, minTick, maxTick, expandTo18Decimals(1))
       await swapExact0For1(expandTo18Decimals(1), wallet.address)
@@ -585,7 +585,7 @@ describe('UniswapV3Pool', () => {
     it('clears the tick if its the last position using it', async () => {
       const tickLower = minTick + tickSpacing
       const tickUpper = maxTick - tickSpacing
-      // some activity that would make the ticks non-zero
+      // 进行一些会使 tick 数据变为非零的操作
       await pool.advanceTime(10)
       await mint(wallet.address, tickLower, tickUpper, 1)
       await swapExact0For1(expandTo18Decimals(1), wallet.address)
@@ -597,7 +597,7 @@ describe('UniswapV3Pool', () => {
     it('clears only the lower tick if upper is still used', async () => {
       const tickLower = minTick + tickSpacing
       const tickUpper = maxTick - tickSpacing
-      // some activity that would make the ticks non-zero
+      // 进行一些会使 tick 数据变为非零的操作
       await pool.advanceTime(10)
       await mint(wallet.address, tickLower, tickUpper, 1)
       await mint(wallet.address, tickLower + tickSpacing, tickUpper, 1)
@@ -610,7 +610,7 @@ describe('UniswapV3Pool', () => {
     it('clears only the upper tick if lower is still used', async () => {
       const tickLower = minTick + tickSpacing
       const tickUpper = maxTick - tickSpacing
-      // some activity that would make the ticks non-zero
+      // 进行一些会使 tick 数据变为非零的操作
       await pool.advanceTime(10)
       await mint(wallet.address, tickLower, tickUpper, 1)
       await mint(wallet.address, tickLower, tickUpper - tickSpacing, 1)
@@ -621,7 +621,7 @@ describe('UniswapV3Pool', () => {
     })
   })
 
-  // the combined amount of liquidity that the pool is initialized with (including the 1 minimum liquidity that is burned)
+  // 池子初始化时注入的流动性总量（包括被销毁的 1 个单位最小流动性）
   const initializeLiquidityAmount = expandTo18Decimals(2)
   async function initializeAtZeroTick(pool: MockTimeUniswapV3Pool): Promise<void> {
     await pool.initialize(encodePriceSqrt(1, 1))
@@ -633,7 +633,7 @@ describe('UniswapV3Pool', () => {
   describe('#observe', () => {
     beforeEach(() => initializeAtZeroTick(pool))
 
-    // zero tick
+    // tick 为零
     it('current tick accumulator increases by tick over time', async () => {
       let {
         tickCumulatives: [tickCumulative],
@@ -647,7 +647,7 @@ describe('UniswapV3Pool', () => {
     })
 
     it('current tick accumulator after single swap', async () => {
-      // moves to tick -1
+      // 移动到 tick -1
       await swapExact0For1(1000, wallet.address)
       await pool.advanceTime(4)
       let {
@@ -738,7 +738,7 @@ describe('UniswapV3Pool', () => {
       const lowerTick = -tickSpacing
       const upperTick = tickSpacing
       await mint(wallet.address, lowerTick, upperTick, expandTo18Decimals(1000))
-      // should be 'LS', hardhat is bugged
+      // 本应是 'LS'，但 hardhat 有 bug
       await expect(pool.burn(lowerTick, upperTick, expandTo18Decimals(1001))).to.be.reverted
     })
 
@@ -816,17 +816,17 @@ describe('UniswapV3Pool', () => {
           const kBefore = await pool.liquidity()
           expect(kBefore).to.be.eq(expandTo18Decimals(2))
 
-          // add liquidity at and above current tick
+          // 在当前 tick 及其上方添加流动性
           const liquidityDelta = expandTo18Decimals(1)
           const lowerTick = 0
           const upperTick = tickSpacing
           await mint(wallet.address, lowerTick, upperTick, liquidityDelta)
 
-          // ensure virtual supply has increased appropriately
+          // 确保虚拟供应量相应地增加了
           const kAfter = await pool.liquidity()
           expect(kAfter).to.be.eq(expandTo18Decimals(3))
 
-          // swap toward the left (just enough for the tick transition function to trigger)
+          // 向左兑换（刚好足以触发 tick 转换函数）
           await swapExact0For1(1, wallet.address)
           const { tick } = await pool.slot0()
           expect(tick).to.be.eq(-1)
@@ -838,17 +838,17 @@ describe('UniswapV3Pool', () => {
           const kBefore = await pool.liquidity()
           expect(kBefore).to.be.eq(expandTo18Decimals(2))
 
-          // add liquidity below the current tick
+          // 在当前 tick 下方添加流动性
           const liquidityDelta = expandTo18Decimals(1)
           const lowerTick = -tickSpacing
           const upperTick = 0
           await mint(wallet.address, lowerTick, upperTick, liquidityDelta)
 
-          // ensure virtual supply hasn't changed
+          // 确保虚拟供应量没有变化
           const kAfter = await pool.liquidity()
           expect(kAfter).to.be.eq(kBefore)
 
-          // swap toward the left (just enough for the tick transition function to trigger)
+          // 向左兑换（刚好足以触发 tick 转换函数）
           await swapExact0For1(1, wallet.address)
           const { tick } = await pool.slot0()
           expect(tick).to.be.eq(-1)
@@ -867,7 +867,7 @@ describe('UniswapV3Pool', () => {
       await expect(mint(wallet.address, 0, 120, expandTo18Decimals(1)))
         .to.emit(token0, 'Transfer')
         .withArgs(wallet.address, pool.address, '5981737760509663')
-      // somebody takes the limit order
+      // 有人吃掉了这笔限价单
       await swapExact1For0(expandTo18Decimals(2), other.address)
       await expect(pool.burn(0, 120, expandTo18Decimals(1)))
         .to.emit(pool, 'Burn')
@@ -876,7 +876,7 @@ describe('UniswapV3Pool', () => {
         .to.not.emit(token1, 'Transfer')
       await expect(pool.collect(wallet.address, 0, 120, MaxUint128, MaxUint128))
         .to.emit(token1, 'Transfer')
-        .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('18107525382602')) // roughly 0.3% despite other liquidity
+        .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('18107525382602')) // 尽管存在其他流动性，仍约为 0.3%
         .to.not.emit(token0, 'Transfer')
       expect((await pool.slot0()).tick).to.be.gte(120)
     })
@@ -884,7 +884,7 @@ describe('UniswapV3Pool', () => {
       await expect(mint(wallet.address, -120, 0, expandTo18Decimals(1)))
         .to.emit(token1, 'Transfer')
         .withArgs(wallet.address, pool.address, '5981737760509663')
-      // somebody takes the limit order
+      // 有人吃掉了这笔限价单
       await swapExact0For1(expandTo18Decimals(2), other.address)
       await expect(pool.burn(-120, 0, expandTo18Decimals(1)))
         .to.emit(pool, 'Burn')
@@ -893,7 +893,7 @@ describe('UniswapV3Pool', () => {
         .to.not.emit(token1, 'Transfer')
       await expect(pool.collect(wallet.address, -120, 0, MaxUint128, MaxUint128))
         .to.emit(token0, 'Transfer')
-        .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('18107525382602')) // roughly 0.3% despite other liquidity
+        .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('18107525382602')) // 尽管存在其他流动性，仍约为 0.3%
       expect((await pool.slot0()).tick).to.be.lt(-120)
     })
 
@@ -903,7 +903,7 @@ describe('UniswapV3Pool', () => {
         await expect(mint(wallet.address, 0, 120, expandTo18Decimals(1)))
           .to.emit(token0, 'Transfer')
           .withArgs(wallet.address, pool.address, '5981737760509663')
-        // somebody takes the limit order
+        // 有人吃掉了这笔限价单
         await swapExact1For0(expandTo18Decimals(2), other.address)
         await expect(pool.burn(0, 120, expandTo18Decimals(1)))
           .to.emit(pool, 'Burn')
@@ -912,7 +912,7 @@ describe('UniswapV3Pool', () => {
           .to.not.emit(token1, 'Transfer')
         await expect(pool.collect(wallet.address, 0, 120, MaxUint128, MaxUint128))
           .to.emit(token1, 'Transfer')
-          .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('15089604485501')) // roughly 0.25% despite other liquidity
+          .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('15089604485501')) // 尽管存在其他流动性，仍约为 0.25%
           .to.not.emit(token0, 'Transfer')
         expect((await pool.slot0()).tick).to.be.gte(120)
       })
@@ -920,7 +920,7 @@ describe('UniswapV3Pool', () => {
         await expect(mint(wallet.address, -120, 0, expandTo18Decimals(1)))
           .to.emit(token1, 'Transfer')
           .withArgs(wallet.address, pool.address, '5981737760509663')
-        // somebody takes the limit order
+        // 有人吃掉了这笔限价单
         await swapExact0For1(expandTo18Decimals(2), other.address)
         await expect(pool.burn(-120, 0, expandTo18Decimals(1)))
           .to.emit(pool, 'Burn')
@@ -929,7 +929,7 @@ describe('UniswapV3Pool', () => {
           .to.not.emit(token1, 'Transfer')
         await expect(pool.collect(wallet.address, -120, 0, MaxUint128, MaxUint128))
           .to.emit(token0, 'Transfer')
-          .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('15089604485501')) // roughly 0.25% despite other liquidity
+          .withArgs(pool.address, wallet.address, BigNumber.from('6017734268818165').add('15089604485501')) // 尽管存在其他流动性，仍约为 0.25%
         expect((await pool.slot0()).tick).to.be.lt(-120)
       })
     })
@@ -947,7 +947,7 @@ describe('UniswapV3Pool', () => {
 
       await swapExact0For1(expandTo18Decimals(1), wallet.address)
 
-      // poke positions
+      // 对头寸执行 poke
       await pool.burn(minTick, maxTick, 0)
       await pool.burn(minTick + tickSpacing, maxTick - tickSpacing, 0)
 
@@ -1221,10 +1221,10 @@ describe('UniswapV3Pool', () => {
 
         await expect(pool.collectProtocol(other.address, MaxUint128, MaxUint128))
           .to.emit(token0, 'Transfer')
-          // more token0 fees because it's 1/5th the swap fees
+          // token0 手续费更多，因为它是兑换手续费的 1/5
           .withArgs(pool.address, other.address, '62499999999999')
           .to.emit(token1, 'Transfer')
-          // less token1 fees because it's 1/8th the swap fees
+          // token1 手续费更少，因为它是兑换手续费的 1/8
           .withArgs(pool.address, other.address, '99999999999998')
       })
     })
@@ -1277,7 +1277,7 @@ describe('UniswapV3Pool', () => {
       expect(token0Fees).to.eq('416666666666666')
       expect(token1Fees).to.eq(0)
 
-      // collect the fees
+      // 提取手续费
       await pool.collect(wallet.address, minTick, maxTick, MaxUint128, MaxUint128)
 
       const { token0Fees: token0FeesNext, token1Fees: token1FeesNext } = await swapAndGetFeesOwed({
@@ -1293,7 +1293,7 @@ describe('UniswapV3Pool', () => {
       expect(token0ProtocolFees).to.eq('166666666666666')
       expect(token1ProtocolFees).to.eq(0)
 
-      await pool.burn(minTick, maxTick, 0) // poke to update fees
+      await pool.burn(minTick, maxTick, 0) // 执行 poke 以更新手续费
       await expect(pool.collect(wallet.address, minTick, maxTick, MaxUint128, MaxUint128))
         .to.emit(token0, 'Transfer')
         .withArgs(pool.address, wallet.address, '416666666666666')
@@ -1352,13 +1352,13 @@ describe('UniswapV3Pool', () => {
     const sqrtTickMath = (await (await ethers.getContractFactory('TickMathTest')).deploy()) as TickMathTest
     const swapMath = (await (await ethers.getContractFactory('SwapMathTest')).deploy()) as SwapMathTest
     const p0 = (await sqrtTickMath.getSqrtRatioAtTick(-24081)).add(1)
-    // initialize at a price of ~0.3 token1/token0
-    // meaning if you swap in 2 token0, you should end up getting 0 token1
+    // 以约 0.3 token1/token0 的价格初始化
+    // 这意味着如果兑换投入 2 个 token0，最终应得到 0 个 token1
     await pool.initialize(p0)
     expect(await pool.liquidity(), 'current pool liquidity is 1').to.eq(0)
     expect((await pool.slot0()).tick, 'pool tick is -24081').to.eq(-24081)
 
-    // add a bunch of liquidity around current price
+    // 在当前价格附近添加大量流动性
     const liquidity = expandTo18Decimals(1000)
     await mint(wallet.address, -24082, -24080, liquidity)
     expect(await pool.liquidity(), 'current pool liquidity is now liquidity + 1').to.eq(liquidity)
@@ -1366,7 +1366,7 @@ describe('UniswapV3Pool', () => {
     await mint(wallet.address, -24082, -24081, liquidity)
     expect(await pool.liquidity(), 'current pool liquidity is still liquidity + 1').to.eq(liquidity)
 
-    // check the math works out to moving the price down 1, sending no amount out, and having some amount remaining
+    // 检查计算结果为：价格下移 1，没有任何数量转出，并且有部分数量剩余
     {
       const { feeAmount, amountIn, amountOut, sqrtQ } = await swapMath.computeSwapStep(
         p0,
@@ -1381,7 +1381,7 @@ describe('UniswapV3Pool', () => {
       expect(amountOut, 'zero amount out').to.eq(0)
     }
 
-    // swap 2 amount in, should get 0 amount out
+    // 兑换投入 2 个单位，应得到 0 个单位的输出
     await expect(swapExact0For1(3, wallet.address))
       .to.emit(token0, 'Transfer')
       .withArgs(wallet.address, pool.address, 3)
@@ -1688,7 +1688,7 @@ describe('UniswapV3Pool', () => {
         await ethers.getContractFactory('TestUniswapV3ReentrantCallee')
       ).deploy()) as TestUniswapV3ReentrantCallee
 
-      // the tests happen in solidity
+      // 测试逻辑在 Solidity 中进行
       await expect(reentrant.swapToReenter(pool.address)).to.be.revertedWith('Unable to reenter')
     })
   })
@@ -1763,7 +1763,7 @@ describe('UniswapV3Pool', () => {
         secondsInside,
       } = await pool.snapshotCumulativesInside(tickLower, tickUpper)
       expect(secondsPerLiquidityInsideX128).to.eq(BigNumber.from(5).shl(128).div(10))
-      // tick is 0 for 5 seconds, then not in range
+      // tick 在 5 秒内为 0，之后不在区间内
       expect(tickCumulativeInside, 'tickCumulativeInside').to.eq(0)
       expect(secondsInside).to.eq(5)
     })
@@ -1778,7 +1778,7 @@ describe('UniswapV3Pool', () => {
         secondsInside,
       } = await pool.snapshotCumulativesInside(tickLower, tickUpper)
       expect(secondsPerLiquidityInsideX128).to.eq(BigNumber.from(7).shl(128).div(10))
-      // tick is not in range then tick is 0 for 7 seconds
+      // tick 先不在区间内，之后 7 秒内 tick 为 0
       expect(tickCumulativeInside, 'tickCumulativeInside').to.eq(0)
       expect(secondsInside).to.eq(7)
     })
@@ -1793,7 +1793,7 @@ describe('UniswapV3Pool', () => {
         secondsInside,
       } = await pool.snapshotCumulativesInside(tickLower, tickUpper)
       expect(secondsPerLiquidityInsideX128).to.eq(BigNumber.from(7).shl(128).div(10))
-      expect((await pool.slot0()).tick).to.eq(-1) // justify the -7 tick cumulative inside value
+      expect((await pool.slot0()).tick).to.eq(-1) // 解释为何区间内的 tick 累计值为 -7
       expect(tickCumulativeInside, 'tickCumulativeInside').to.eq(-7)
       expect(secondsInside).to.eq(7)
     })
@@ -1808,8 +1808,8 @@ describe('UniswapV3Pool', () => {
         secondsInside,
       } = await pool.snapshotCumulativesInside(tickUpper, getMaxTick(tickSpacing))
       expect(secondsPerLiquidityInsideX128).to.eq(BigNumber.from(8).shl(128).div(15))
-      // the tick of 2/1 is 6931
-      // 8 seconds * 6931 = 55448
+      // 价格 2/1 对应的 tick 为 6931
+      // 8 秒 * 6931 = 55448
       expect(tickCumulativeInside, 'tickCumulativeInside').to.eq(55448)
       expect(secondsInside).to.eq(8)
     })
@@ -1836,7 +1836,7 @@ describe('UniswapV3Pool', () => {
         secondsInside: secondsInsideStart,
       } = await pool.snapshotCumulativesInside(getMinTick(tickSpacing), tickLower)
       await pool.advanceTime(8)
-      // 13 seconds in starting range, then 3 seconds in newly minted range
+      // 先在初始区间内 13 秒，然后在新铸造的区间内 3 秒
       await swapToLowerPrice(encodePriceSqrt(1, 2), wallet.address)
       await pool.advanceTime(3)
       const {
@@ -1849,8 +1849,8 @@ describe('UniswapV3Pool', () => {
         expectedDiffSecondsPerLiquidity
       )
       expect(secondsPerLiquidityInsideX128).to.not.eq(expectedDiffSecondsPerLiquidity)
-      // the tick is the one corresponding to the price of 1/2, or log base 1.0001 of 0.5
-      // this is -6932, and 3 seconds have passed, so the cumulative computed from the diff equals 6932 * 3
+      // 该 tick 对应价格 1/2，即以 1.0001 为底 0.5 的对数
+      // 其值为 -6932，且已过去 3 秒，因此由差值计算出的累计值等于 6932 * 3
       expect(tickCumulativeInside.sub(tickCumulativeInsideStart), 'tickCumulativeInside').to.eq(-20796)
       expect(secondsInside - secondsInsideStart).to.eq(3)
       expect(secondsInside).to.not.eq(3)
@@ -1867,7 +1867,7 @@ describe('UniswapV3Pool', () => {
         pool.feeGrowthGlobal0X128(),
         pool.feeGrowthGlobal1X128(),
       ])
-      // all 1s in first 128 bits
+      // 前 128 位全为 1
       expect(feeGrowthGlobal0X128).to.eq(MaxUint128.shl(128))
       expect(feeGrowthGlobal1X128).to.eq(MaxUint128.shl(128))
       await pool.burn(minTick, maxTick, 0)
@@ -1892,7 +1892,7 @@ describe('UniswapV3Pool', () => {
         pool.feeGrowthGlobal0X128(),
         pool.feeGrowthGlobal1X128(),
       ])
-      // all 1s in first 128 bits
+      // 前 128 位全为 1
       expect(feeGrowthGlobal0X128).to.eq(0)
       expect(feeGrowthGlobal1X128).to.eq(0)
       await pool.burn(minTick, maxTick, 0)
@@ -1903,7 +1903,7 @@ describe('UniswapV3Pool', () => {
         MaxUint128,
         MaxUint128
       )
-      // fees burned
+      // 手续费被销毁
       expect(amount0).to.eq(0)
       expect(amount1).to.eq(0)
     })
@@ -1923,7 +1923,7 @@ describe('UniswapV3Pool', () => {
         MaxUint128,
         MaxUint128
       )
-      // fees burned
+      // 手续费被销毁
       expect(amount0).to.eq(0)
       expect(amount1).to.eq(0)
     })

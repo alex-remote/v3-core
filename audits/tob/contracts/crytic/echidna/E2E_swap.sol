@@ -61,7 +61,7 @@ contract E2E_swap {
 
     //
     //
-    // Helpers
+    // 辅助函数
     //
     //
 
@@ -70,7 +70,7 @@ contract E2E_swap {
         view
         returns (uint160 sqrtPriceLimitX96)
     {
-        // help echidna a bit by calculating a valid sqrtPriceLimitX96 using the amount as random seed
+        // 以数量作为随机种子计算出一个有效的 sqrtPriceLimitX96，稍微帮 echidna 一把
         (uint160 currentPrice, , , , , , ) = pool.slot0();
         uint160 minimumPrice = TickMath.MIN_SQRT_RATIO;
         sqrtPriceLimitX96 =
@@ -85,7 +85,7 @@ contract E2E_swap {
         view
         returns (uint160 sqrtPriceLimitX96)
     {
-        // help echidna a bit by calculating a valid sqrtPriceLimitX96 using the amount as random seed
+        // 以数量作为随机种子计算出一个有效的 sqrtPriceLimitX96，稍微帮 echidna 一把
         (uint160 currentPrice, , , , , , ) = pool.slot0();
         uint160 maximumPrice = TickMath.MAX_SQRT_RATIO;
         sqrtPriceLimitX96 =
@@ -97,7 +97,7 @@ contract E2E_swap {
 
     //
     //
-    // Invariants
+    // 不变量
     //
     //
 
@@ -112,7 +112,7 @@ contract E2E_swap {
             liquidityNet = result;
         }
 
-        // prop #20
+        // 性质 #20
         assert(liquidityNet == 0);
     }
 
@@ -129,7 +129,7 @@ contract E2E_swap {
             }
         }
 
-        // prop #21
+        // 性质 #21
         assert(uint128(liquidity) == pool.liquidity());
         assert(liquidity >= 0);
     }
@@ -145,10 +145,10 @@ contract E2E_swap {
         (, , uint256 tB_feeGrowthOutside0X128, uint256 tB_feeGrowthOutside1X128) = pool.ticks(tickBelow);
         (, , uint256 tA_feeGrowthOutside0X128, uint256 tA_feeGrowthOutside1X128) = pool.ticks(tickAbove);
 
-        // prop #22
+        // 性质 #22
         assert(tB_feeGrowthOutside0X128 + tA_feeGrowthOutside0X128 <= pool.feeGrowthGlobal0X128());
 
-        // prop #23
+        // 性质 #23
         assert(tB_feeGrowthOutside1X128 + tA_feeGrowthOutside1X128 <= pool.feeGrowthGlobal1X128());
     }
 
@@ -166,18 +166,18 @@ contract E2E_swap {
         uint256 feegrowth_buy_bfre,
         uint256 feegrowth_buy_aftr
     ) internal {
-        // prop #17
+        // 性质 #17
         if (tick_bfre == tick_aftr) {
             assert(liq_bfre == liq_aftr);
         }
 
-        // prop #13 + #15
+        // 性质 #13 + #15
         assert(feegrowth_sell_bfre <= feegrowth_sell_aftr);
 
-        // prop #14 + #16
+        // 性质 #14 + #16
         assert(feegrowth_buy_bfre == feegrowth_buy_aftr);
 
-        // prop #18 + #19
+        // 性质 #18 + #19
         if (bal_sell_bfre == bal_sell_aftr) {
             assert(bal_buy_bfre == bal_buy_aftr);
         }
@@ -185,7 +185,7 @@ contract E2E_swap {
 
     //
     //
-    // Helper to reconstruct the "random" init setup of the pool
+    // 用于重建池子“随机”初始化设置的辅助函数
     //
     //
 
@@ -200,13 +200,13 @@ contract E2E_swap {
 
     //
     //
-    // Setup functions
+    // 初始化设置函数
     //
     //
 
     function forgePoolParams(uint128 _seed) internal view returns (PoolParams memory poolParams) {
         //
-        // decide on one of the three fees, and corresponding tickSpacing
+        // 从三种手续费中选定一种，以及相应的 tickSpacing
         //
         if (_seed % 3 == 0) {
             poolParams.fee = uint24(500);
@@ -224,18 +224,18 @@ contract E2E_swap {
         poolParams.tickCount = uint24(poolParams.maxTick / poolParams.tickSpacing);
 
         //
-        // set the initial price
+        // 设置初始价格
         //
         poolParams.startTick = int24((_seed % uint128(poolParams.tickCount)) * uint128(poolParams.tickSpacing));
         if (_seed % 3 == 0) {
-            // set below 0
+            // 设为低于 0
             poolParams.startPrice = TickMath.getSqrtRatioAtTick(-poolParams.startTick);
         } else if (_seed % 3 == 1) {
-            // set at 0
+            // 设为 0
             poolParams.startPrice = TickMath.getSqrtRatioAtTick(0);
             poolParams.startTick = 0;
         } else if (_seed % 3 == 2) {
-            // set above 0
+            // 设为高于 0
             poolParams.startPrice = TickMath.getSqrtRatioAtTick(poolParams.startTick);
         }
     }
@@ -246,7 +246,7 @@ contract E2E_swap {
         uint24 _poolTickCount,
         int24 _poolMaxTick
     ) internal view returns (PoolPositions memory poolPositions_) {
-        // between 1 and 10 (inclusive) positions
+        // 1 到 10 个（含两端）头寸
         uint8 positionsCount = uint8(_seed % 10) + 1;
 
         poolPositions_.tickLowers = new int24[](positionsCount);
@@ -261,15 +261,15 @@ contract E2E_swap {
             int24 randomTick1 = int24((_seed % uint128(_poolTickCount)) * uint128(_poolTickSpacing));
 
             if (_seed % 2 == 0) {
-                // make tickLower positive
+                // 令 tickLower 为正
                 tickLower = randomTick1;
 
-                // tickUpper is somewhere above tickLower
+                // tickUpper 位于 tickLower 之上的某处
                 uint24 poolTickCountLeft = uint24((_poolMaxTick - randomTick1) / _poolTickSpacing);
                 int24 randomTick2 = int24((_seed % uint128(poolTickCountLeft)) * uint128(_poolTickSpacing));
                 tickUpper = tickLower + randomTick2;
             } else {
-                // make tickLower negative or zero
+                // 令 tickLower 为负或零
                 tickLower = randomTick1 == 0 ? 0 : -randomTick1;
 
                 uint24 poolTickCountNegativeLeft = uint24((_poolMaxTick - randomTick1) / _poolTickSpacing);
@@ -278,10 +278,10 @@ contract E2E_swap {
                 uint24 randomIncrement = uint24((_seed % uint128(poolTickCountTotalLeft)) * uint128(_poolTickSpacing));
 
                 if (randomIncrement <= uint24(tickLower)) {
-                    // tickUpper will also be negative
+                    // tickUpper 也将为负
                     tickUpper = tickLower + int24(randomIncrement);
                 } else {
-                    // tickUpper is positive
+                    // tickUpper 为正
                     randomIncrement -= uint24(-tickLower);
                     tickUpper = tickLower + int24(randomIncrement);
                 }
@@ -299,29 +299,29 @@ contract E2E_swap {
 
     function _init(uint128 _seed) internal {
         //
-        // generate random pool params
+        // 生成随机的池子参数
         //
         poolParams = forgePoolParams(_seed);
 
         //
-        // deploy the pool
+        // 部署池子
         //
         uniswap.createPool(poolParams.fee, poolParams.startPrice);
         pool = uniswap.pool();
 
         //
-        // set the pool inside the minter and swapper contracts
+        // 在 minter 和 swapper 合约中设置池子
         //
         minter.setPool(pool);
         swapper.setPool(pool);
 
         //
-        // generate random positions
+        // 生成随机头寸
         //
         poolPositions = forgePoolPositions(_seed, poolParams.tickSpacing, poolParams.tickCount, poolParams.maxTick);
 
         //
-        // create the positions
+        // 创建这些头寸
         //
         for (uint8 i = 0; i < poolPositions.tickLowers.length; i++) {
             int24 tickLower = poolPositions.tickLowers[i];
@@ -345,7 +345,7 @@ contract E2E_swap {
 
     //
     //
-    // Functions to fuzz
+    // 待模糊测试的函数
     //
     //
 

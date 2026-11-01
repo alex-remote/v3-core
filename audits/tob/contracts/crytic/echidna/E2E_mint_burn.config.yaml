@@ -4,9 +4,9 @@ codeSize: 0x60000
 corpusDir: echidna_e2e_mint_burn_corpus
 seqLen: 10
 testLimit: 100000
-timeout: 600 # 10 minutes
+timeout: 600 # 10 分钟
 
-# blacklist
+# 黑名单
 filterFunctions:
   [
     'E2E_mint_burn.viewInitRandomPoolParams(uint128)',

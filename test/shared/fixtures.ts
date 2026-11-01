@@ -51,7 +51,7 @@ interface PoolFixture extends TokensAndFactoryFixture {
   ): Promise<MockTimeUniswapV3Pool>
 }
 
-// Monday, October 5, 2020 9:00:00 AM GMT-05:00
+// 2020 年 10 月 5 日（星期一）上午 9:00:00 GMT-05:00
 export const TEST_POOL_START_TIME = 1601906400
 
 export const poolFixture: Fixture<PoolFixture> = async function (): Promise<PoolFixture> {

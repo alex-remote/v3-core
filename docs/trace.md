@@ -8,7 +8,7 @@
 > - 由多个子代理按批次并行翻译，主代理负责同步本文档；
 > - 结果提交至分支 `v3-core_zh`。
 >
-> 最后更新：2026-11-01 14:15　　总体进度：**0 / 104** 个文件（0 / 21 个批次）
+> 最后更新：2026-11-01 14:22　　总体进度：**103 / 104** 个文件（20 / 21 个批次）
 
 ## 一、统计概览
 
@@ -35,26 +35,26 @@
 
 | 批次 | 内容 | 文件数 | 行数 | 状态 |
 | --- | --- | ---: | ---: | --- |
-| B01 | 核心合约：池子主合约 | 1 | 869 | ⏳ 进行中 |
-| B02 | 核心库：预言机 | 1 | 325 | ⏳ 进行中 |
-| B03 | 核心库：价格与兑换数学 | 2 | 325 | ⏳ 进行中 |
-| B04 | 核心库：底层数学 | 5 | 253 | ⏳ 进行中 |
-| B05 | 核心库：Tick 与位图 | 2 | 263 | ⏳ 进行中 |
-| B06 | 核心库：TickMath / 头寸 / 安全运算 | 6 | 407 | ⏳ 进行中 |
-| B07 | 池子接口：操作 / 管理 / 不可变量 | 3 | 161 | ⏳ 进行中 |
-| B08 | 池子接口：事件 / 派生状态 | 2 | 161 | ⏳ 进行中 |
-| B09 | 池子接口：状态 / 聚合接口 | 2 | 140 | ⏳ 进行中 |
-| B10 | 其他接口与回调 | 6 | 213 | ⏳ 进行中 |
-| B11 | 工厂 / 部署器 / 防委托调用 | 3 | 138 | ⏳ 进行中 |
-| B12 | 测试合约：Echidna 模糊测试 | 11 | 766 | ⏳ 进行中 |
-| B13 | 测试合约：单元测试辅助 | 18 | 972 | ⏳ 进行中 |
-| B14 | 审计（ToB）：E2E 铸造/销毁 | 1 | 503 | ⏳ 进行中 |
-| B15 | 审计（ToB）：E2E 兑换 | 1 | 487 | ⏳ 进行中 |
-| B16 | 审计（ToB）：Setup / 配置 / Manticore | 8 | 291 | ⏳ 进行中 |
-| B17 | 配置文件：Echidna / CI / Hardhat | 7 | 366 | ⏳ 进行中 |
-| B18 | TS 测试：池子主测试 | 1 | 2043 | ⏳ 进行中 |
-| B19 | TS 测试：其余用例与共享工具 | 21 | 4601 | ⏳ 进行中 |
-| B20 | Markdown：根目录文档 | 2 | 142 | ⏳ 进行中 |
+| B01 | 核心合约：池子主合约 | 1 | 869 | ✅ 已完成 |
+| B02 | 核心库：预言机 | 1 | 325 | ✅ 已完成 |
+| B03 | 核心库：价格与兑换数学 | 2 | 325 | ✅ 已完成 |
+| B04 | 核心库：底层数学 | 5 | 253 | ✅ 已完成 |
+| B05 | 核心库：Tick 与位图 | 2 | 263 | ✅ 已完成 |
+| B06 | 核心库：TickMath / 头寸 / 安全运算 | 6 | 407 | ✅ 已完成 |
+| B07 | 池子接口：操作 / 管理 / 不可变量 | 3 | 161 | ✅ 已完成 |
+| B08 | 池子接口：事件 / 派生状态 | 2 | 161 | ✅ 已完成 |
+| B09 | 池子接口：状态 / 聚合接口 | 2 | 140 | ✅ 已完成 |
+| B10 | 其他接口与回调 | 6 | 213 | ✅ 已完成 |
+| B11 | 工厂 / 部署器 / 防委托调用 | 3 | 138 | ✅ 已完成 |
+| B12 | 测试合约：Echidna 模糊测试 | 11 | 766 | ✅ 已完成 |
+| B13 | 测试合约：单元测试辅助 | 18 | 972 | ✅ 已完成 |
+| B14 | 审计（ToB）：E2E 铸造/销毁 | 1 | 503 | ✅ 已完成 |
+| B15 | 审计（ToB）：E2E 兑换 | 1 | 487 | ✅ 已完成 |
+| B16 | 审计（ToB）：Setup / 配置 / Manticore | 8 | 291 | ✅ 已完成 |
+| B17 | 配置文件：Echidna / CI / Hardhat | 7 | 366 | ✅ 已完成 |
+| B18 | TS 测试：池子主测试 | 1 | 2043 | ✅ 已完成 |
+| B19 | TS 测试：其余用例与共享工具 | 21 | 4601 | ✅ 已完成 |
+| B20 | Markdown：根目录文档 | 2 | 142 | ✅ 已完成 |
 | B21 | Markdown：ToB 审计说明 | 1 | 166 | ⏳ 进行中 |
 
 ## 三、文件明细
@@ -63,166 +63,166 @@
 
 ### B01 · 核心合约：池子主合约
 
-- [ ] `contracts/UniswapV3Pool.sol` — 869 行
+- [x] `contracts/UniswapV3Pool.sol` — 869 行 → 869 行 ✅ 行数一致；注：第 70 行原注释“whether the pool is locked”与字段名 unlocked 语义相反，按原文直译
 
 ### B02 · 核心库：预言机
 
-- [ ] `contracts/libraries/Oracle.sol` — 325 行
+- [x] `contracts/libraries/Oracle.sol` — 325 行 → 325 行 ✅ 行数一致
 
 ### B03 · 核心库：价格与兑换数学
 
-- [ ] `contracts/libraries/SqrtPriceMath.sol` — 227 行
-- [ ] `contracts/libraries/SwapMath.sol` — 98 行
+- [x] `contracts/libraries/SqrtPriceMath.sol` — 227 行 → 227 行 ✅ 行数一致
+- [x] `contracts/libraries/SwapMath.sol` — 98 行 → 98 行 ✅ 行数一致
 
 ### B04 · 核心库：底层数学
 
-- [ ] `contracts/libraries/FullMath.sol` — 124 行
-- [ ] `contracts/libraries/BitMath.sol` — 94 行
-- [ ] `contracts/libraries/UnsafeMath.sol` — 17 行
-- [ ] `contracts/libraries/FixedPoint128.sol` — 8 行
-- [ ] `contracts/libraries/FixedPoint96.sol` — 10 行
+- [x] `contracts/libraries/FullMath.sol` — 124 行 → 124 行 ✅ 行数一致；原文笔误 correct correct / precoditions 已按原意译出
+- [x] `contracts/libraries/BitMath.sol` — 94 行 → 94 行 ✅ 行数一致
+- [x] `contracts/libraries/UnsafeMath.sol` — 17 行 → 17 行 ✅ 行数一致
+- [x] `contracts/libraries/FixedPoint128.sol` — 8 行 → 8 行 ✅ 行数一致
+- [x] `contracts/libraries/FixedPoint96.sol` — 10 行 → 10 行 ✅ 行数一致
 
 ### B05 · 核心库：Tick 与位图
 
-- [ ] `contracts/libraries/Tick.sol` — 185 行
-- [ ] `contracts/libraries/TickBitmap.sol` — 78 行
+- [x] `contracts/libraries/Tick.sol` — 185 行 → 185 行 ✅ 行数一致
+- [x] `contracts/libraries/TickBitmap.sol` — 78 行 → 78 行 ✅ 行数一致
 
 ### B06 · 核心库：TickMath / 头寸 / 安全运算
 
-- [ ] `contracts/libraries/TickMath.sol` — 205 行
-- [ ] `contracts/libraries/Position.sol` — 88 行
-- [ ] `contracts/libraries/LiquidityMath.sol` — 17 行
-- [ ] `contracts/libraries/LowGasSafeMath.sol` — 46 行
-- [ ] `contracts/libraries/SafeCast.sol` — 28 行
-- [ ] `contracts/libraries/TransferHelper.sol` — 23 行
+- [x] `contracts/libraries/TickMath.sol` — 205 行 → 205 行 ✅ 行数一致
+- [x] `contracts/libraries/Position.sol` — 88 行 → 88 行 ✅ 行数一致
+- [x] `contracts/libraries/LiquidityMath.sol` — 17 行 → 17 行 ✅ 行数一致；注：@return z 原文称 delta，实际返回变化后的流动性，按原文直译
+- [x] `contracts/libraries/LowGasSafeMath.sol` — 46 行 → 46 行 ✅ 行数一致
+- [x] `contracts/libraries/SafeCast.sol` — 28 行 → 28 行 ✅ 行数一致
+- [x] `contracts/libraries/TransferHelper.sol` — 23 行 → 23 行 ✅ 行数一致
 
 ### B07 · 池子接口：操作 / 管理 / 不可变量
 
-- [ ] `contracts/interfaces/pool/IUniswapV3PoolActions.sol` — 103 行
-- [ ] `contracts/interfaces/pool/IUniswapV3PoolOwnerActions.sol` — 23 行
-- [ ] `contracts/interfaces/pool/IUniswapV3PoolImmutables.sol` — 35 行
+- [x] `contracts/interfaces/pool/IUniswapV3PoolActions.sol` — 103 行 → 103 行 ✅ 行数一致
+- [x] `contracts/interfaces/pool/IUniswapV3PoolOwnerActions.sol` — 23 行 → 23 行 ✅ 行数一致
+- [x] `contracts/interfaces/pool/IUniswapV3PoolImmutables.sol` — 35 行 → 35 行 ✅ 行数一致
 
 ### B08 · 池子接口：事件 / 派生状态
 
-- [ ] `contracts/interfaces/pool/IUniswapV3PoolEvents.sol` — 121 行
-- [ ] `contracts/interfaces/pool/IUniswapV3PoolDerivedState.sol` — 40 行
+- [x] `contracts/interfaces/pool/IUniswapV3PoolEvents.sol` — 121 行 → 121 行 ✅ 行数一致；注：第 119 行原文 @param 名误写为 amount0（实指 token1），按原文保留
+- [x] `contracts/interfaces/pool/IUniswapV3PoolDerivedState.sol` — 40 行 → 40 行 ✅ 行数一致；注：第 31 行 secondsInside 的说明照抄了上一行，按原文直译
 
 ### B09 · 池子接口：状态 / 聚合接口
 
-- [ ] `contracts/interfaces/pool/IUniswapV3PoolState.sol` — 116 行
-- [ ] `contracts/interfaces/IUniswapV3Pool.sol` — 24 行
+- [x] `contracts/interfaces/pool/IUniswapV3PoolState.sol` — 116 行 → 116 行 ✅ 行数一致
+- [x] `contracts/interfaces/IUniswapV3Pool.sol` — 24 行 → 24 行 ✅ 行数一致
 
 ### B10 · 其他接口与回调
 
-- [ ] `contracts/interfaces/IUniswapV3Factory.sol` — 78 行
-- [ ] `contracts/interfaces/IERC20Minimal.sol` — 52 行
-- [ ] `contracts/interfaces/IUniswapV3PoolDeployer.sol` — 26 行
-- [ ] `contracts/interfaces/callback/IUniswapV3FlashCallback.sol` — 18 行
-- [ ] `contracts/interfaces/callback/IUniswapV3MintCallback.sol` — 18 行
-- [ ] `contracts/interfaces/callback/IUniswapV3SwapCallback.sol` — 21 行
+- [x] `contracts/interfaces/IUniswapV3Factory.sol` — 78 行 → 78 行 ✅ 行数一致
+- [x] `contracts/interfaces/IERC20Minimal.sol` — 52 行 → 52 行 ✅ 行数一致
+- [x] `contracts/interfaces/IUniswapV3PoolDeployer.sol` — 26 行 → 26 行 ✅ 行数一致
+- [x] `contracts/interfaces/callback/IUniswapV3FlashCallback.sol` — 18 行 → 18 行 ✅ 行数一致
+- [x] `contracts/interfaces/callback/IUniswapV3MintCallback.sol` — 18 行 → 18 行 ✅ 行数一致
+- [x] `contracts/interfaces/callback/IUniswapV3SwapCallback.sol` — 21 行 → 21 行 ✅ 行数一致
 
 ### B11 · 工厂 / 部署器 / 防委托调用
 
-- [ ] `contracts/NoDelegateCall.sol` — 27 行
-- [ ] `contracts/UniswapV3Factory.sol` — 73 行
-- [ ] `contracts/UniswapV3PoolDeployer.sol` — 38 行
+- [x] `contracts/NoDelegateCall.sol` — 27 行 → 27 行 ✅ 行数一致
+- [x] `contracts/UniswapV3Factory.sol` — 73 行 → 73 行 ✅ 行数一致
+- [x] `contracts/UniswapV3PoolDeployer.sol` — 38 行 → 38 行 ✅ 行数一致
 
 ### B12 · 测试合约：Echidna 模糊测试
 
-- [ ] `contracts/test/BitMathEchidnaTest.sol` — 18 行
-- [ ] `contracts/test/FullMathEchidnaTest.sol` — 67 行
-- [ ] `contracts/test/LowGasSafeMathEchidnaTest.sol` — 36 行
-- [ ] `contracts/test/OracleEchidnaTest.sol` — 137 行
-- [ ] `contracts/test/SqrtPriceMathEchidnaTest.sol` — 232 行
-- [ ] `contracts/test/SwapMathEchidnaTest.sol` — 52 行
-- [ ] `contracts/test/TickBitmapEchidnaTest.sol` — 47 行
-- [ ] `contracts/test/TickEchidnaTest.sol` — 27 行
-- [ ] `contracts/test/TickMathEchidnaTest.sol` — 22 行
-- [ ] `contracts/test/TickOverflowSafetyEchidnaTest.sol` — 111 行
-- [ ] `contracts/test/UnsafeMathEchidnaTest.sol` — 17 行
+- [x] `contracts/test/BitMathEchidnaTest.sol` — 18 行 → 18 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `contracts/test/FullMathEchidnaTest.sol` — 67 行 → 67 行 ✅ 行数一致；注：第 58 行注释复制自第 36 行，与该函数断言 x2 >= x 相反，按原文直译
+- [x] `contracts/test/LowGasSafeMathEchidnaTest.sol` — 36 行 → 36 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `contracts/test/OracleEchidnaTest.sol` — 137 行 → 137 行 ✅ 行数一致
+- [x] `contracts/test/SqrtPriceMathEchidnaTest.sol` — 232 行 → 232 行 ✅ 行数一致
+- [x] `contracts/test/SwapMathEchidnaTest.sol` — 52 行 → 52 行 ✅ 行数一致
+- [x] `contracts/test/TickBitmapEchidnaTest.sol` — 47 行 → 47 行 ✅ 行数一致
+- [x] `contracts/test/TickEchidnaTest.sol` — 27 行 → 27 行 ✅ 行数一致
+- [x] `contracts/test/TickMathEchidnaTest.sol` — 22 行 → 22 行 ✅ 行数一致
+- [x] `contracts/test/TickOverflowSafetyEchidnaTest.sol` — 111 行 → 111 行 ✅ 行数一致
+- [x] `contracts/test/UnsafeMathEchidnaTest.sol` — 17 行 → 17 行 ✅ 行数一致；无可翻译注释，保持原样
 
 ### B13 · 测试合约：单元测试辅助
 
-- [ ] `contracts/test/BitMathTest.sol` — 26 行
-- [ ] `contracts/test/FullMathTest.sol` — 22 行
-- [ ] `contracts/test/LiquidityMathTest.sol` — 16 行
-- [ ] `contracts/test/MockTimeUniswapV3Pool.sol` — 26 行
-- [ ] `contracts/test/MockTimeUniswapV3PoolDeployer.sol` — 35 行
-- [ ] `contracts/test/NoDelegateCallTest.sol` — 32 行
-- [ ] `contracts/test/OracleTest.sol` — 100 行
-- [ ] `contracts/test/SqrtPriceMathTest.sol` — 86 行
-- [ ] `contracts/test/SwapMathTest.sol` — 37 行
-- [ ] `contracts/test/TestERC20.sol` — 59 行
-- [ ] `contracts/test/TestUniswapV3Callee.sol` — 142 行
-- [ ] `contracts/test/TestUniswapV3ReentrantCallee.sol` — 56 行
-- [ ] `contracts/test/TestUniswapV3Router.sol` — 91 行
-- [ ] `contracts/test/TestUniswapV3SwapPay.sol` — 41 行
-- [ ] `contracts/test/TickBitmapTest.sol` — 40 行
-- [ ] `contracts/test/TickMathTest.sol` — 34 行
-- [ ] `contracts/test/TickTest.sol` — 79 行
-- [ ] `contracts/test/UniswapV3PoolSwapTest.sol` — 50 行
+- [x] `contracts/test/BitMathTest.sol` — 26 行 → 26 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/FullMathTest.sol` — 22 行 → 22 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/LiquidityMathTest.sol` — 16 行 → 16 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/MockTimeUniswapV3Pool.sol` — 26 行 → 26 行 ✅ 行数一致
+- [x] `contracts/test/MockTimeUniswapV3PoolDeployer.sol` — 35 行 → 35 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/NoDelegateCallTest.sol` — 32 行 → 32 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/OracleTest.sol` — 100 行 → 100 行 ✅ 行数一致
+- [x] `contracts/test/SqrtPriceMathTest.sol` — 86 行 → 86 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/SwapMathTest.sol` — 37 行 → 37 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/TestERC20.sol` — 59 行 → 59 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/TestUniswapV3Callee.sol` — 142 行 → 142 行 ✅ 行数一致
+- [x] `contracts/test/TestUniswapV3ReentrantCallee.sol` — 56 行 → 56 行 ✅ 行数一致
+- [x] `contracts/test/TestUniswapV3Router.sol` — 91 行 → 91 行 ✅ 行数一致
+- [x] `contracts/test/TestUniswapV3SwapPay.sol` — 41 行 → 41 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/TickBitmapTest.sol` — 40 行 → 40 行 ✅ 行数一致
+- [x] `contracts/test/TickMathTest.sol` — 34 行 → 34 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/TickTest.sol` — 79 行 → 79 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
+- [x] `contracts/test/UniswapV3PoolSwapTest.sol` — 50 行 → 50 行 ✅ 行数一致；无可翻译注释（仅 SPDX 行），保持原样
 
 ### B14 · 审计（ToB）：E2E 铸造/销毁
 
-- [ ] `audits/tob/contracts/crytic/echidna/E2E_mint_burn.sol` — 503 行
+- [x] `audits/tob/contracts/crytic/echidna/E2E_mint_burn.sol` — 503 行 → 503 行 ✅ 行数一致
 
 ### B15 · 审计（ToB）：E2E 兑换
 
-- [ ] `audits/tob/contracts/crytic/echidna/E2E_swap.sol` — 487 行
+- [x] `audits/tob/contracts/crytic/echidna/E2E_swap.sol` — 487 行 → 487 行 ✅ 行数一致
 
 ### B16 · 审计（ToB）：Setup / 配置 / Manticore
 
-- [ ] `audits/tob/contracts/crytic/echidna/Setup.sol` — 205 行
-- [ ] `audits/tob/contracts/crytic/echidna/Other.sol` — 21 行
-- [ ] `audits/tob/contracts/crytic/echidna/E2E_mint_burn.config.yaml` — 16 行
-- [ ] `audits/tob/contracts/crytic/echidna/E2E_swap.config.yaml` — 10 行
-- [ ] `audits/tob/contracts/crytic/echidna/Other.config.yaml` — 7 行
-- [ ] `audits/tob/contracts/crytic/manticore/001.sol` — 11 行
-- [ ] `audits/tob/contracts/crytic/manticore/002.sol` — 12 行
-- [ ] `audits/tob/contracts/crytic/manticore/003.sol` — 9 行
+- [x] `audits/tob/contracts/crytic/echidna/Setup.sol` — 205 行 → 205 行 ✅ 行数一致；注：第 12 行原注释称 100 tokens，与代码 1e12 ether 不符，按原文直译
+- [x] `audits/tob/contracts/crytic/echidna/Other.sol` — 21 行 → 21 行 ✅ 行数一致
+- [x] `audits/tob/contracts/crytic/echidna/E2E_mint_burn.config.yaml` — 16 行 → 16 行 ✅ 行数一致
+- [x] `audits/tob/contracts/crytic/echidna/E2E_swap.config.yaml` — 10 行 → 10 行 ✅ 行数一致
+- [x] `audits/tob/contracts/crytic/echidna/Other.config.yaml` — 7 行 → 7 行 ✅ 行数一致
+- [x] `audits/tob/contracts/crytic/manticore/001.sol` — 11 行 → 11 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `audits/tob/contracts/crytic/manticore/002.sol` — 12 行 → 12 行 ✅ 行数一致
+- [x] `audits/tob/contracts/crytic/manticore/003.sol` — 9 行 → 9 行 ✅ 行数一致；无可翻译注释，保持原样
 
 ### B17 · 配置文件：Echidna / CI / Hardhat
 
-- [ ] `echidna.config.yml` — 74 行
-- [ ] `hardhat.config.ts` — 68 行
-- [ ] `.github/stale.yml` — 25 行
-- [ ] `.github/workflows/fuzz-testing.yml` — 60 行
-- [ ] `.github/workflows/lint.yml` — 36 行
-- [ ] `.github/workflows/mythx.yml` — 65 行
-- [ ] `.github/workflows/tests.yml` — 38 行
+- [x] `echidna.config.yml` — 74 行 → 74 行 ✅ 行数一致；被注释掉的配置项原样保留，仅译说明文字
+- [x] `hardhat.config.ts` — 68 行 → 68 行 ✅ 行数一致
+- [x] `.github/stale.yml` — 25 行 → 25 行 ✅ 行数一致
+- [x] `.github/workflows/fuzz-testing.yml` — 60 行 → 60 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `.github/workflows/lint.yml` — 36 行 → 36 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `.github/workflows/mythx.yml` — 65 行 → 65 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `.github/workflows/tests.yml` — 38 行 → 38 行 ✅ 行数一致
 
 ### B18 · TS 测试：池子主测试
 
-- [ ] `test/UniswapV3Pool.spec.ts` — 2043 行
+- [x] `test/UniswapV3Pool.spec.ts` — 2043 行 → 2043 行 ✅ 行数一致；第 1349 行为 issue URL，按规则保留英文
 
 ### B19 · TS 测试：其余用例与共享工具
 
-- [ ] `test/BitMath.spec.ts` — 79 行
-- [ ] `test/FullMath.spec.ts` — 182 行
-- [ ] `test/LiquidityMath.spec.ts` — 44 行
-- [ ] `test/NoDelegateCall.spec.ts` — 54 行
-- [ ] `test/Oracle.spec.ts` — 798 行
-- [ ] `test/SqrtPriceMath.spec.ts` — 379 行
-- [ ] `test/SwapMath.spec.ts` — 324 行
-- [ ] `test/Tick.spec.ts` — 329 行
-- [ ] `test/TickBitmap.spec.ts` — 227 行
-- [ ] `test/TickMath.spec.ts` — 166 行
-- [ ] `test/UniswapV3Factory.spec.ts` — 177 行
-- [ ] `test/UniswapV3Pool.arbitrage.spec.ts` — 373 行
-- [ ] `test/UniswapV3Pool.gas.spec.ts` — 315 行
-- [ ] `test/UniswapV3Pool.swaps.spec.ts` — 588 行
-- [ ] `test/UniswapV3Router.spec.ts` — 133 行
-- [ ] `test/shared/checkObservationEquals.ts` — 38 行
-- [ ] `test/shared/expect.ts` — 8 行
-- [ ] `test/shared/fixtures.ts` — 92 行
-- [ ] `test/shared/format.ts` — 10 行
-- [ ] `test/shared/snapshotGasCost.ts` — 27 行
-- [ ] `test/shared/utilities.ts` — 258 行
+- [x] `test/BitMath.spec.ts` — 79 行 → 79 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/FullMath.spec.ts` — 182 行 → 182 行 ✅ 行数一致
+- [x] `test/LiquidityMath.spec.ts` — 44 行 → 44 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/NoDelegateCall.spec.ts` — 54 行 → 54 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/Oracle.spec.ts` — 798 行 → 798 行 ✅ 行数一致
+- [x] `test/SqrtPriceMath.spec.ts` — 379 行 → 379 行 ✅ 行数一致
+- [x] `test/SwapMath.spec.ts` — 324 行 → 324 行 ✅ 行数一致
+- [x] `test/Tick.spec.ts` — 329 行 → 329 行 ✅ 行数一致
+- [x] `test/TickBitmap.spec.ts` — 227 行 → 227 行 ✅ 行数一致
+- [x] `test/TickMath.spec.ts` — 166 行 → 166 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/UniswapV3Factory.spec.ts` — 177 行 → 177 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/UniswapV3Pool.arbitrage.spec.ts` — 373 行 → 373 行 ✅ 行数一致
+- [x] `test/UniswapV3Pool.gas.spec.ts` — 315 行 → 315 行 ✅ 行数一致
+- [x] `test/UniswapV3Pool.swaps.spec.ts` — 588 行 → 588 行 ✅ 行数一致
+- [x] `test/UniswapV3Router.spec.ts` — 133 行 → 133 行 ✅ 行数一致
+- [x] `test/shared/checkObservationEquals.ts` — 38 行 → 38 行 ✅ 行数一致
+- [x] `test/shared/expect.ts` — 8 行 → 8 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/shared/fixtures.ts` — 92 行 → 92 行 ✅ 行数一致
+- [x] `test/shared/format.ts` — 10 行 → 10 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/shared/snapshotGasCost.ts` — 27 行 → 27 行 ✅ 行数一致；无可翻译注释，保持原样
+- [x] `test/shared/utilities.ts` — 258 行 → 258 行 ✅ 行数一致
 
 ### B20 · Markdown：根目录文档
 
-- [ ] `README.md` — 66 行
-- [ ] `bug-bounty.md` — 76 行
+- [x] `README.md` — 66 行 → 66 行 ✅ 行数一致（译本 `README_zh.md`）；徽章、链接、代码原样保留
+- [x] `bug-bounty.md` — 76 行 → 76 行 ✅ 行数一致（译本 `bug-bounty_zh.md`）
 
 ### B21 · Markdown：ToB 审计说明
 

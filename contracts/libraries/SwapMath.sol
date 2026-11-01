@@ -4,20 +4,20 @@ pragma solidity >=0.5.0;
 import './FullMath.sol';
 import './SqrtPriceMath.sol';
 
-/// @title Computes the result of a swap within ticks
-/// @notice Contains methods for computing the result of a swap within a single tick price range, i.e., a single tick.
+/// @title 计算在 tick 内进行兑换的结果
+/// @notice 包含计算在单个 tick 价格区间（即单个 tick）内兑换结果的方法。
 library SwapMath {
-    /// @notice Computes the result of swapping some amount in, or amount out, given the parameters of the swap
-    /// @dev The fee, plus the amount in, will never exceed the amount remaining if the swap's `amountSpecified` is positive
-    /// @param sqrtRatioCurrentX96 The current sqrt price of the pool
-    /// @param sqrtRatioTargetX96 The price that cannot be exceeded, from which the direction of the swap is inferred
-    /// @param liquidity The usable liquidity
-    /// @param amountRemaining How much input or output amount is remaining to be swapped in/out
-    /// @param feePips The fee taken from the input amount, expressed in hundredths of a bip
-    /// @return sqrtRatioNextX96 The price after swapping the amount in/out, not to exceed the price target
-    /// @return amountIn The amount to be swapped in, of either token0 or token1, based on the direction of the swap
-    /// @return amountOut The amount to be received, of either token0 or token1, based on the direction of the swap
-    /// @return feeAmount The amount of input that will be taken as a fee
+    /// @notice 根据兑换的参数，计算兑换一定输入数量或输出数量的结果
+    /// @dev 如果兑换的 `amountSpecified` 为正，手续费加上输入数量永远不会超过剩余数量
+    /// @param sqrtRatioCurrentX96 池子当前的平方根价格
+    /// @param sqrtRatioTargetX96 不可超越的价格，兑换方向由它推断得出
+    /// @param liquidity 可用流动性
+    /// @param amountRemaining 剩余待兑换进/出的输入或输出数量
+    /// @param feePips 从输入数量中收取的手续费，以百分之一 bip 为单位表示
+    /// @return sqrtRatioNextX96 兑换进/出该数量之后的价格，不超过目标价格
+    /// @return amountIn 根据兑换方向，要兑换进来的 token0 或 token1 的数量
+    /// @return amountOut 根据兑换方向，将收到的 token0 或 token1 的数量
+    /// @return feeAmount 将作为手续费收取的输入数量
     function computeSwapStep(
         uint160 sqrtRatioCurrentX96,
         uint160 sqrtRatioTargetX96,
@@ -66,7 +66,7 @@ library SwapMath {
 
         bool max = sqrtRatioTargetX96 == sqrtRatioNextX96;
 
-        // get the input/output amounts
+        // 计算输入/输出数量
         if (zeroForOne) {
             amountIn = max && exactIn
                 ? amountIn
@@ -83,13 +83,13 @@ library SwapMath {
                 : SqrtPriceMath.getAmount0Delta(sqrtRatioCurrentX96, sqrtRatioNextX96, liquidity, false);
         }
 
-        // cap the output amount to not exceed the remaining output amount
+        // 对输出数量设上限，使其不超过剩余的输出数量
         if (!exactIn && amountOut > uint256(-amountRemaining)) {
             amountOut = uint256(-amountRemaining);
         }
 
         if (exactIn && sqrtRatioNextX96 != sqrtRatioTargetX96) {
-            // we didn't reach the target, so take the remainder of the maximum input as fee
+            // 我们没有到达目标，因此将最大输入的剩余部分作为手续费收取
             feeAmount = uint256(amountRemaining) - amountIn;
         } else {
             feeAmount = FullMath.mulDivRoundingUp(amountIn, feePips, 1e6 - feePips);

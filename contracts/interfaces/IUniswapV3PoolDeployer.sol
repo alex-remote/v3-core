@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
-/// @title An interface for a contract that is capable of deploying Uniswap V3 Pools
-/// @notice A contract that constructs a pool must implement this to pass arguments to the pool
-/// @dev This is used to avoid having constructor arguments in the pool contract, which results in the init code hash
-/// of the pool being constant allowing the CREATE2 address of the pool to be cheaply computed on-chain
+/// @title 能够部署 Uniswap V3 池子的合约的接口
+/// @notice 构造池子的合约必须实现此接口，以便向池子传递参数
+/// @dev 这样做是为了避免池子合约带有构造函数参数，从而使池子的 init code hash
+/// 保持不变，进而可以在链上以低成本计算出池子的 CREATE2 地址
 interface IUniswapV3PoolDeployer {
-    /// @notice Get the parameters to be used in constructing the pool, set transiently during pool creation.
-    /// @dev Called by the pool constructor to fetch the parameters of the pool
-    /// Returns factory The factory address
-    /// Returns token0 The first token of the pool by address sort order
-    /// Returns token1 The second token of the pool by address sort order
-    /// Returns fee The fee collected upon every swap in the pool, denominated in hundredths of a bip
-    /// Returns tickSpacing The minimum number of ticks between initialized ticks
+    /// @notice 获取构造池子时要使用的参数，这些参数在池子创建期间临时设置。
+    /// @dev 由池子的构造函数调用，以获取池子的参数
+    /// Returns factory 工厂地址
+    /// Returns token0 按地址排序时池子的第一个代币
+    /// Returns token1 按地址排序时池子的第二个代币
+    /// Returns fee 池子中每次兑换收取的手续费，以百分之一 bip 为单位
+    /// Returns tickSpacing 已初始化的 tick 之间的最小 tick 数
     function parameters()
         external
         view
